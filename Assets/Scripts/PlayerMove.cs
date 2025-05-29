@@ -28,8 +28,8 @@ public class PlayerMove : MonoBehaviour
 
         if (move.IsPressed())
         {
-            Vector3 lookTarget = transform.position + direction;
-            transform.LookAt(lookTarget);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
 
             rb.linearDamping = 0f;
             rb.linearVelocity = direction * speed;
