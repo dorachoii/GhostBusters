@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
@@ -8,6 +9,11 @@ public class PlayerAttack : MonoBehaviour
     float suckRange = 8f;
     float suckPower = 5f;
     float suckAngle = 60f;
+
+    public Transform hand;
+    public GameObject[] FX;
+
+    bool isFXInstantiated = false;
 
 
     void OnEnable()
@@ -29,18 +35,22 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-
         float direction = attack.ReadValue<float>();
         if (attack.IsPressed())
         {
             if (direction < 0) Suck();
             else Blow();
         }
+        else
+        {
+            OffFX();
+        }
     }
 
     private void Suck()
     {
         ApplyVacuum(1);
+        OnFX(0);
     }
 
 
@@ -48,7 +58,35 @@ public class PlayerAttack : MonoBehaviour
     private void Blow()
     {
         ApplyVacuum(-1);
+        OnFX(1);
     }
+
+    private void OnFX(int idx)
+    {
+        if (!isFXInstantiated)
+        {
+            if (idx == 0)
+            {
+                Instantiate(FX[idx], hand.position + hand.transform.forward * 2, hand.rotation, hand);
+            }
+            else
+            {
+                Instantiate(FX[idx], hand.position, hand.rotation, hand);
+            }
+            
+            isFXInstantiated = true;
+        }
+    }
+
+    private void OffFX()
+    {
+        foreach (Transform child in hand)
+        {
+            Destroy(child.gameObject);
+        }
+        isFXInstantiated = false;
+    }
+
 
     private void ApplyVacuum(float direction)
     {
@@ -74,7 +112,7 @@ public class PlayerAttack : MonoBehaviour
                 if (angle < halfFOV) continue;
 
                 float power = Mathf.Lerp(suckPower, 0, distance / suckRange);
-                target.attachedRigidbody.AddForce(direction*dir * power, ForceMode.Impulse);
+                target.attachedRigidbody.AddForce(direction * dir * power, ForceMode.Impulse);
             }
         }
     }
