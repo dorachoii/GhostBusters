@@ -6,8 +6,9 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] InputAction attack;
     float suckRange = 8f;
-    float suckPower = 10f;
-    
+    float suckPower = 5f;
+    float suckAngle = 60f;
+
 
     void OnEnable()
     {
@@ -28,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        
+
         float direction = attack.ReadValue<float>();
         if (attack.IsPressed())
         {
@@ -39,12 +40,29 @@ public class PlayerAttack : MonoBehaviour
 
     private void Suck()
     {
-        Collider[] targets = Physics.OverlapSphere(transform.position, suckRange,LayerMask.GetMask("Item"));
-        
+        ApplyVacuum(1);
+    }
+
+
+
+    private void Blow()
+    {
+        ApplyVacuum(-1);
+    }
+
+    private void ApplyVacuum(float direction)
+    {
+        Collider[] targets = Physics.OverlapSphere(transform.position, suckRange, LayerMask.GetMask("Item"));
+
+        Vector3 forward = transform.forward;
+        float halfFOV = suckAngle * 0.5f;
+
         foreach (var target in targets)
         {
             if (target.attachedRigidbody != null)
             {
+                Vector3 dir = (transform.position - target.transform.position).normalized;
+                float angle = Vector3.Angle(forward, dir);
                 float distance = Vector3.Distance(transform.position, target.transform.position);
 
                 if (distance < 0.7f)
@@ -53,21 +71,30 @@ public class PlayerAttack : MonoBehaviour
                     continue;
                 }
 
-                Vector3 dir = (transform.position - target.transform.position).normalized;
+                if (angle < halfFOV) continue;
+
                 float power = Mathf.Lerp(suckPower, 0, distance / suckRange);
-                target.attachedRigidbody.AddForce(dir * power, ForceMode.Impulse);
+                target.attachedRigidbody.AddForce(direction*dir * power, ForceMode.Impulse);
             }
         }
     }
-
-    private void OnDrawGizmosSelected()
+    
+        private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.darkRed;
         Gizmos.DrawWireSphere(transform.position, suckRange);
-    }
 
-    private void Blow()
-    {
+        Vector3 forward = transform.forward;
+        float halfFOV = suckAngle * 0.5f;
 
+        Quaternion leftRotation = Quaternion.Euler(0, -halfFOV, 0);
+        Quaternion rightRotation = Quaternion.Euler(0, halfFOV, 0);
+
+        Vector3 leftDir = leftRotation * forward;
+        Vector3 rightDir = rightRotation * forward;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, leftDir * suckRange);
+        Gizmos.DrawRay(transform.position, rightDir * suckRange);
     }
 }
