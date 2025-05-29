@@ -1,0 +1,57 @@
+	
+- - - - - - - - - - - - - - - - - - - - - Little Ghost(Glowing Cute) lowpoly - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+These cute little ghosts are born to scare you!!! (Just joking,..its just a cute funny little ghosts.Take them)
+
+This pack contains 3d Animated Little Ghosts with many Color variations.Pack comes with many texture variations and a custom Shader,which you can use to make any thing looks like ghost thing. You can use this Asset commercially and non-commercially.This model is optmized for using in pc, mobile and AR games.
+
+Note: Ghost and Materials are highly customizable.You can create Unlimted variations of Ghost's by changing material properties and Meshes.For quick use, 20 ghosts are included in prefabs.Also, this asset uses Shadergraph with Built-in support.
+
+Technical Details:-
+		- Model(s) : Little Ghost, Hat, other props (Eyes, Mouth.etc), Props x25
+		- Model format : (.FBX)
+		- Polygon count : 7830 (Including Ghost, Hat and other props), Props (12-2000 polys)
+		- Unwrapped : Yes (Ghost only)
+		- Animations : 12 (Idle x 2, Fly/Run x 2, Hide/Death, Wake, Attack x 2, Dance x 3, Look)
+		- Materials : 13+ (CUSTOMIZABLE), 10+ for Props
+		- Used Material(s) : Custom(Made with Shadergraph 12.1.11)
+		- Prefabs : 20+ (Ghost), 100+(Props)		
+			
+		
+
+Features:-
+	- 100+ Ghostly Props included
+	- Props contain usefull Arrows, Icons, Letters, Shields, Grass, Star, Pumpkin.etc
+	- Customizable models and materials
+	- Many variation's of Cute littel ghosts
+	- Cute and funny character (Sometimes a little scary too!!!)
+	- Comes with all basic animations
+	- Lowpoly design
+	- Optimized for Mobile and AR
+	- Easy to use(Drag and drop the prefab to your scene)
+	- Colliders, Rigidbodies attached
+	- Easy to modify
+	
+Folder details:-
+
+	Materials : Where the materials for the model located.
+	
+	Meshes : Contain FBX format of the 3d model.
+	
+	(Other folders - Prefabs, Scenes)
+
+
+
+How to use:-
+	
+	Simply drag and drop the prefab to your scene and use it.
+	(Prefab(s) located under 
+	Asset >  Little_Ghost_GLOW > Prefabs).
+
+..................................................................................
+
+About Me : "SR Studios Kerala", Indie Game developer & 2D-3D Artist from Alappuzha, Kerala, India
+contact : srstudioskerala@gmail.com
+ 
+
+................Thank you for downloading this package................................

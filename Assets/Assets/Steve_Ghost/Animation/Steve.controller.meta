@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b7866b20fd1cbd5459537efe04452f9f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256513
+  packageName: 'Steve : The Skeleton Ghost'
+  packageVersion: 1.0
+  assetPath: Assets/Steve_Ghost/Animation/Steve.controller
+  uploadId: 603843

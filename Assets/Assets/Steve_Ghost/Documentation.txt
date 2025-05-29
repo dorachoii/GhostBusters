@@ -1,0 +1,63 @@
+	
+- - - - - - - - - - - - - - - - - - - - - Steve : The Ghost - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+This pack contains 3d lowpoly Animated model of a Skeleton ghost.Pack comes
+with many variations of the character. This model is optmized for using in pc, mobile and AR games.
+
+Note: 
+
+> Used Shadergraph to create Material's for the character.
+> Will work's on Built-in Render pipeline and other pipelines.
+> Works on Mobile, PC Devices, AR & VR
+> You can use this Asset commercially and non-commercially
+
+Technical Details:-
+		- Model(s) : Steve (Skeleton Ghost)
+		- Polygon count(in Verts) : 5281 (Max)
+		- Unwrapped : No
+		- Animations : 16 (Idle x 2, Run x 2, Attack x2, Fly x 2, Dance x 4, Hit, Click, Rotate, Look)
+		- Prefabs : 36+
+		- Used Material(s) : Custom material, Unity Standard Material
+		
+
+Features:-
+	- Lowpoly model
+	- Comes with more than 36+ Unique character variation
+	- Fully customizable
+	- Create new variation easily by using the
+	"Steve" character creator ( Change Material, Shape, Add/Remove props 
+of individual character)
+	- Optimized models (Works on PC, Consoles, Mobile, AR and VR)
+	- Smooth Loop & Non-loop animations
+	- Easy to use(Drag and drop the prefab to your scene)
+	- Arranged & Well named folders
+	- Simple Colliders attached
+	- Easy to modify the assets
+	- No external pluggins are used
+                  - All model's are ready to use
+	
+Folder details:-
+
+	Materials : Where the materials for the model located.
+	
+	Meshes : Contain FBX format of the 3d model.
+	
+	Textures : Contains Textures, that are in (.PNG) file format
+	
+	(Other folders - Prefabs, Scenes)
+
+
+
+How to use:-
+	
+	Simply drag and drop the prefab to your scene and use it.
+	(Prefab(s) located under 
+	Asset >  Steve_Ghost > Prefabs).
+
+..................................................................................
+
+About Me : "SR Studios Kerala", Indie Game developer & 2D-3D Artist from Alappuzha, Kerala, India
+contact : srstudioskerala@gmail.com
+ 
+
+................Thank you for downloading this package................................

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: cd19f4cfaee10f842b6442cab67cd521
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256513
+  packageName: 'Steve : The Skeleton Ghost'
+  packageVersion: 1.0
+  assetPath: Assets/Little_Ghost_GLOW/Shader_Graph/Props.shadergraph
+  uploadId: 603843

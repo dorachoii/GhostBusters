@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e2e69f2e1f5935a4bba02465b3650b2c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256513
+  packageName: 'Steve : The Skeleton Ghost'
+  packageVersion: 1.0
+  assetPath: Assets/Steve_Ghost/Scripts/steve.cs
+  uploadId: 603843
