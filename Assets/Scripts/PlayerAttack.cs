@@ -13,6 +13,8 @@ using UnityEngine.Scripting.APIUpdating;
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerController controller;
+    private PlayerStats stats;
+
     [SerializeField] InputAction attack;
     float suckRange = 8f;
     float suckPower = 5f;
@@ -22,8 +24,6 @@ public class PlayerAttack : MonoBehaviour
     public GameObject[] FX;
 
     bool isFXInstantiated = false;
-
-
     void OnEnable()
     {
         attack.Enable();
@@ -33,6 +33,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        stats = GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame
@@ -137,9 +138,19 @@ public class PlayerAttack : MonoBehaviour
     {
         target.attachedRigidbody.linearVelocity = Vector3.zero;
 
-        if (transform.GetChild(1).childCount > 5) return;
-        target.attachedRigidbody.isKinematic = true;
-        target.transform.SetParent(transform.GetChild(1), true);
+        if (target.gameObject.CompareTag("Item"))
+        {
+            if (transform.GetChild(1).childCount > stats.maxItem) return;
+            Debug.Log("d" + transform.GetChild(1).childCount);
+            target.attachedRigidbody.isKinematic = true;
+            target.transform.SetParent(transform.GetChild(1), true);
+            stats.GainItem();
+        }
+        else if (target.gameObject.CompareTag("Heart"))
+        {
+            target.gameObject.GetComponent<HealItem>().Heal(stats);
+        }
+        
     }
 
     private void ReleaseItems()
@@ -154,7 +165,6 @@ public class PlayerAttack : MonoBehaviour
             itemsToRelease.Add(child);
         }
 
-
         foreach (Transform child in itemsToRelease)
         {
             Rigidbody rb = child.GetComponent<Rigidbody>();
@@ -164,6 +174,7 @@ public class PlayerAttack : MonoBehaviour
                 child.position += forward * 0.5f;
                 rb.isKinematic = false;
                 rb.AddForce(forward * 10f + Vector3.up * 3f, ForceMode.Impulse);
+                stats.LoseItem();
             }
         }
     }
