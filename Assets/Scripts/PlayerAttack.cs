@@ -1,10 +1,18 @@
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
+/// <summary>
+/// Player has two types of Behavior:
+/// 1. Suck adjecent items.
+/// 2. Blow them to attack
+/// </summary>
 public class PlayerAttack : MonoBehaviour
 {
+    private PlayerController controller;
     [SerializeField] InputAction attack;
     float suckRange = 8f;
     float suckPower = 5f;
@@ -24,7 +32,7 @@ public class PlayerAttack : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        controller = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -44,11 +52,13 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             OffFX();
+            controller.StateMachine.TransitionTo(controller.StateMachine.idleState);
         }
     }
 
     private void Suck()
     {
+        controller.StateMachine.TransitionTo(controller.StateMachine.suckState);
         ApplyVacuum(1);
         OnFX(0);
     }
@@ -57,6 +67,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void Blow()
     {
+        controller.StateMachine.TransitionTo(controller.StateMachine.blowState);
+        ReleaseItems();
         ApplyVacuum(-1);
         OnFX(1);
     }
@@ -68,12 +80,13 @@ public class PlayerAttack : MonoBehaviour
             if (idx == 0)
             {
                 Instantiate(FX[idx], hand.position + hand.transform.forward * 2, hand.rotation, hand);
+
             }
             else
             {
                 Instantiate(FX[idx], hand.position, hand.rotation, hand);
             }
-            
+
             isFXInstantiated = true;
         }
     }
@@ -105,7 +118,10 @@ public class PlayerAttack : MonoBehaviour
 
                 if (distance < 0.7f)
                 {
-                    target.attachedRigidbody.linearVelocity = Vector3.zero;
+                    if (!target.attachedRigidbody.isKinematic)
+                    {
+                        StoreItem(target);
+                    }
                     continue;
                 }
 
@@ -116,8 +132,46 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-    
-        private void OnDrawGizmosSelected()
+
+    private void StoreItem(Collider target)
+    {
+        target.attachedRigidbody.linearVelocity = Vector3.zero;
+
+        if (transform.GetChild(1).childCount > 5) return;
+        target.attachedRigidbody.isKinematic = true;
+        target.transform.SetParent(transform.GetChild(1), true);
+    }
+
+    private void ReleaseItems()
+    {
+        Transform pocket = transform.GetChild(1);
+        Vector3 forward = transform.forward;
+
+        List<Transform> itemsToRelease = new List<Transform>();
+
+        foreach (Transform child in pocket)
+        {
+            itemsToRelease.Add(child);
+        }
+
+
+        foreach (Transform child in itemsToRelease)
+        {
+            Rigidbody rb = child.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                child.SetParent(null);
+                child.position += forward * 0.5f;
+                rb.isKinematic = false;
+                rb.AddForce(forward * 10f + Vector3.up * 3f, ForceMode.Impulse);
+            }
+        }
+    }
+
+
+
+
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.darkRed;
         Gizmos.DrawWireSphere(transform.position, suckRange);

@@ -1,14 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Controls the player's movement via Rigidbody based on input actions.
+/// </summary>
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] InputAction move;
     Rigidbody rb;
     float speed = 10f;
+    private PlayerController controller;
 
     private void Start()
     {
+        controller = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -24,19 +29,23 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        var direction = move.ReadValue<Vector3>().normalized;
+        Vector3 direction = move.ReadValue<Vector3>().normalized;
 
         if (move.IsPressed())
         {
+            controller.StateMachine.TransitionTo(controller.StateMachine.walkState);
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
 
-            rb.linearDamping = 0f;
-            rb.linearVelocity = direction * speed;
+            Vector3 currentPos = rb.position;
+            Vector3 newPos = currentPos + direction * (speed * Time.fixedDeltaTime);
+            rb.MovePosition(newPos);
+
         }
         else
         {
-            rb.linearDamping = 4f;
+            if (controller.StateMachine.CurrentState == controller.StateMachine.suckState || controller.StateMachine.CurrentState == controller.StateMachine.blowState) return;
+            controller.StateMachine.TransitionTo(controller.StateMachine.idleState);
         }
     }
 }
