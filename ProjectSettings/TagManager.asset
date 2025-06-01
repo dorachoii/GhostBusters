@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Item
   - Heart
+  - SmallBall
+  - BigBall
   layers:
   - Default
   - TransparentFX
@@ -14,6 +16,7 @@ TagManager:
   - Water
   - UI
   - Player
+  - Boss
   - 
   - 
   - 
@@ -36,8 +39,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - BossRock
   - Item
   m_SortingLayers:
   - name: Default

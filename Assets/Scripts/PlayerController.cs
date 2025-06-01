@@ -127,6 +127,30 @@ public class SuckState : IState
     }
 }
 
+public class HitState : IState
+{
+    private PlayerController player;
+    private float hitDuration = 0.5f;
+    private float timer = 0f;
+
+    public HitState(PlayerController player)
+    {
+        this.player = player;
+    }
+
+    public void Enter()
+    {
+
+    }
+    public void Execute()
+    {
+
+    }
+    public void Exit()
+    {
+        
+    }
+}
 
 public class StateMachine
 {
