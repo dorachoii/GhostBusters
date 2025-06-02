@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Controls the player's movement via Rigidbody based on input actions.
-/// </summary>
+// TODO: 여기 고칠 필요 있음. 각속도가 고정이 안되는 것 같음음
+
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] InputAction move;

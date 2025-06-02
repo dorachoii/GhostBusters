@@ -5,11 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
-/// <summary>
-/// Player has two types of Behavior:
-/// 1. Suck adjecent items.
-/// 2. Blow them to attack
-/// </summary>
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerController controller;
