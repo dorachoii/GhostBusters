@@ -1,19 +1,13 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.InputSystem.Interactions;
 
-/// <summary>
-/// Implements a simple state machine pattern for player behavior management.
-///
-/// The player can be in one of four states:
-/// - Idle: Default resting state
-/// - Walk: Movement state
-/// - Suck: Suction action 
-/// - Blow: Blowing action 
-///
-/// Each state controls corresponding animation parameters and can be transitioned through the StateMachine.
-/// </summary>
+// 현재 상태: PlayerStateMachine이 animator로서의 역할만 하는 중
+// idle, move(bool event)와 heal, hit (trigger event) 구분해서 짜는 게 어려움.
+// 우선, 연속 공격을 맞을 때를 대비해, transitionTo함수에 force변수 하나 추가가
+
 public interface IState
 {
     public void Enter()
@@ -130,8 +124,6 @@ public class SuckState : IState
 public class HitState : IState
 {
     private PlayerController player;
-    private float hitDuration = 0.5f;
-    private float timer = 0f;
 
     public HitState(PlayerController player)
     {
@@ -142,6 +134,7 @@ public class HitState : IState
     {
         player.GetComponentInChildren<HitEffectHandler>().PlayFlicker();
     }
+
     public void Execute()
     {
 
