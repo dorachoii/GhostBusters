@@ -132,7 +132,31 @@ public class HitState : IState
 
     public void Enter()
     {
-        player.GetComponentInChildren<HitEffectHandler>().PlayFlicker();
+        player.GetComponentInChildren<FlickerEffectHandler>().PlayFlicker(FlickerType.Hit);
+    }
+
+    public void Execute()
+    {
+
+    }
+    public void Exit()
+    {
+        
+    }
+}
+
+public class HealState : IState
+{
+    private PlayerController player;
+
+    public HealState(PlayerController player)
+    {
+        this.player = player;
+    }
+
+    public void Enter()
+    {
+        player.GetComponentInChildren<FlickerEffectHandler>().PlayFlicker(FlickerType.Heal);
     }
 
     public void Execute()
@@ -154,6 +178,7 @@ public class StateMachine
     public BlowState blowState;
     public SuckState suckState;
     public HitState hitState;
+    public HealState healState;
 
     public StateMachine(PlayerController player)
     {
@@ -162,6 +187,7 @@ public class StateMachine
         this.blowState = new BlowState(player);
         this.suckState = new SuckState(player);
         this.hitState = new HitState(player);
+        this.healState = new HealState(player);
     }
 
     public void Initialize(IState startingState)

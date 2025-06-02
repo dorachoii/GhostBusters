@@ -28,13 +28,14 @@ public class PlayerStats : MonoBehaviour
     {
         currentHP -= amount;
         OnHPChanged?.Invoke(currentHP);
-        controller.StateMachine.TransitionTo(controller.StateMachine.hitState);
+        controller.StateMachine.TransitionTo(controller.StateMachine.hitState, true);
     }
 
     public void Heal(int amount)
     {
         currentHP += amount;
         OnHPChanged?.Invoke(currentHP);
+        controller.StateMachine.TransitionTo(controller.StateMachine.healState, true);
     }
 
     public void GainItem()

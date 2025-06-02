@@ -8,6 +8,7 @@ public class HealItem : MonoBehaviour
     public void Heal(PlayerStats stats)
     {
         if (used) return;
+        
         stats.Heal(healAmount);
         used = true;
         Destroy(gameObject, 1);
