@@ -140,7 +140,7 @@ public class HitState : IState
 
     public void Enter()
     {
-
+        player.GetComponentInChildren<HitEffectHandler>().PlayFlicker();
     }
     public void Execute()
     {
@@ -160,6 +160,7 @@ public class StateMachine
     public WalkState walkState;
     public BlowState blowState;
     public SuckState suckState;
+    public HitState hitState;
 
     public StateMachine(PlayerController player)
     {
@@ -167,6 +168,7 @@ public class StateMachine
         this.walkState = new WalkState(player);
         this.blowState = new BlowState(player);
         this.suckState = new SuckState(player);
+        this.hitState = new HitState(player);
     }
 
     public void Initialize(IState startingState)
@@ -175,9 +177,9 @@ public class StateMachine
         startingState.Enter();
     }
 
-    public void TransitionTo(IState nextState)
+    public void TransitionTo(IState nextState, bool force = false)
     {
-        if (CurrentState == nextState) return;
+        if (!force && CurrentState == nextState) return;
         CurrentState.Exit();
         CurrentState = nextState;
         nextState.Enter();

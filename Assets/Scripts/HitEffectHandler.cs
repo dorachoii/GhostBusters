@@ -3,18 +3,18 @@ using System.Collections;
 
 public class HitEffectHandler : MonoBehaviour
 {
-    public SkinnedMeshRenderer meshRenderer;
-    public Material originalMaterial;
-    public Material hitMaterial;
+    Material mat;
+    Color originColor;
+    Color hitColor;
 
-    public float flickerDuration = 0.5f;
-    public float flickerSpeed = 0.1f;
+    private float flickerDuration = 1.2f;
+    private float flickerSpeed = 0.4f;
 
     private void Awake()
     {
-    
-            meshRenderer = GetComponent<SkinnedMeshRenderer>();
-            originalMaterial = meshRenderer.materials[0];
+        mat = GetComponent<SkinnedMeshRenderer>().material;
+        originColor = mat.color;
+        hitColor = Color.red * 2f;
     }
 
     public void PlayFlicker()
@@ -30,13 +30,24 @@ public class HitEffectHandler : MonoBehaviour
 
         while (elapsed < flickerDuration)
         {
-            meshRenderer.material = isHit ? hitMaterial : originalMaterial;
-            isHit = !isHit;
+            if (isHit)
+            {
+                mat.SetColor("_Emission_Color", originColor);
+                mat.SetColor("_Color", originColor);
+            }
+            else
+            {
+                mat.SetColor("_Emission_Color", hitColor);
+                mat.SetColor("_Color", hitColor);
+            }
 
+            isHit = !isHit;
             yield return new WaitForSeconds(flickerSpeed);
             elapsed += flickerSpeed;
         }
 
-        meshRenderer.material = originalMaterial;
+        mat.SetColor("_Emission_Color", originColor);
+        mat.SetColor("_Color", originColor);
     }
+
 }

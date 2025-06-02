@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,18 +13,22 @@ public class PlayerStats : MonoBehaviour
     public event Action<int> OnHPChanged;
     public event Action<int> OnCoinChanged;
 
+    PlayerController controller;
+
     private void Awake()
     {
         currentHP = maxHP;
         currentItem = 0;
         OnHPChanged?.Invoke(currentHP);
         OnCoinChanged?.Invoke(currentItem);
+        controller = gameObject.GetComponent<PlayerController>();
     }
 
     public void TakeDamage(int amount)
     {
         currentHP -= amount;
         OnHPChanged?.Invoke(currentHP);
+        controller.StateMachine.TransitionTo(controller.StateMachine.hitState);
     }
 
     public void Heal(int amount)
