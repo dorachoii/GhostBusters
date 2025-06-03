@@ -47,8 +47,16 @@ public class BossContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectPlayer();
-
+        switch (currentState)
+        {
+            case BossState.Idle:
+                HandleIdle();
+                break;
+            case BossState.Patrol:
+            case BossState.FastPatrol:
+                //DetectPlayer();
+                break;
+        }
     }
 
     public void ChangeState(BossState s)
@@ -136,8 +144,6 @@ public class BossContoller : MonoBehaviour
 
     void HandleIdle()
     {
-        DetectPlayer();
-
         idleTimer += Time.deltaTime;
 
         float waitTime = (stats.currentPhase == BossPhase.Phase3) ? 1f : 2f;
