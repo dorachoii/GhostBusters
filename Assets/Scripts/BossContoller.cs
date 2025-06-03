@@ -11,7 +11,7 @@ public enum BossState
     Attack_Prepare,
     Attack_BigBall,
     Attack_3Balls,
-    Attack_8Balls,
+    Attack_Spin,
     Hit,
     Die
 }
@@ -44,7 +44,7 @@ public class BossContoller : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            ChangeState(BossState.Attack_Prepare);
+            ChangeState(BossState.Attack_Spin);
         }
 
         // if (Input.GetKeyUp(KeyCode.Space))
@@ -65,10 +65,11 @@ public class BossContoller : MonoBehaviour
                 animator.SetBool("IsMoving", false);
                 break;
             case BossState.Patrol:
-                patrol.Patrol();
+                patrol.Patrol(30);
                 animator.SetBool("IsMoving", true);
                 break;
             case BossState.FastPatrol:
+                patrol.Patrol(40);
                 break;
             case BossState.Change:
                 animator.SetTrigger("ChangeTrigger");
@@ -79,7 +80,6 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Attack_Prepare:
                 animator.SetTrigger("AttackTrigger");
-
                 break;
             case BossState.Attack_BigBall:
                 attack.StartSmoothLookAt(patrol.player.transform);
@@ -87,9 +87,10 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Attack_3Balls:
                 attack.StartSmoothLookAt(patrol.player.transform);
-                attack.Attack_3Balls(patrol.player.transform);
+                attack.Attack_SmallBalls(patrol.player.transform, 3);
                 break;
-            case BossState.Attack_8Balls:
+            case BossState.Attack_Spin:
+                attack.Attack_Spin();
                 break;
             case BossState.Die:
                 animator.SetTrigger("DeathTrigger");

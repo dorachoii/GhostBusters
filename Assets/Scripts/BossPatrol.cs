@@ -12,10 +12,10 @@ public class BossPatrol : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public void Patrol()
+    public void Patrol(int speed)
     {
         agent.isStopped = false;
-        agent.speed = 30f;
+        agent.speed = speed;
         agent.SetDestination(player.position);
     }
 

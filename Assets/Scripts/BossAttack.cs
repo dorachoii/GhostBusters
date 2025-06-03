@@ -10,8 +10,6 @@ public class BossAttack : MonoBehaviour
 
     public Transform firePos;
     public Transform bigBallPos;
-    private float rockSpeed = 20f;
-    private float delayBetweenShots = 0.5f;
     private bool isAttacking = false;
 
     float blowPower = 4.5f;
@@ -35,34 +33,69 @@ public class BossAttack : MonoBehaviour
     }
 
 
-    public void Attack_3Balls(Transform target)
+    public void Attack_SmallBalls(Transform target, int cnt, float delay = 0.5f, int angleStep = 15)
     {
         if (isAttacking) return;
-        StartCoroutine(IFire3Shot(target));
+        StartCoroutine(IFireNShot(target, cnt, delay, angleStep));
     }
 
-    void FireSmallStone(Vector3 dir)
+    void FireSmallBall(Vector3 dir, float rockSpeed = 20f)
     {
         GameObject rock = Instantiate(bossRocks[0], firePos.position, Quaternion.identity);
         rock.GetComponent<Rigidbody>().linearVelocity = dir * rockSpeed;
     }
 
-
-
-    IEnumerator IFire3Shot(Transform target)
+    IEnumerator IFireNShot(Transform target, int cnt, float delay, int angleStep)
     {
         isAttacking = true;
-        Vector3 dir = (target.position - firePos.position).normalized;
+        Vector3 baseDir = (target.position - firePos.position).normalized;
 
-        FireSmallStone(dir);
-        yield return new WaitForSeconds(delayBetweenShots);
+        float totalSpread = angleStep * (cnt - 1);
+        float startAngle = -totalSpread / 2f;
 
-        FireSmallStone(Quaternion.Euler(0, -15f, 0) * dir);
-        yield return new WaitForSeconds(delayBetweenShots);
+        for (int i = 0; i < cnt; i++)
+        {
+            float angle = startAngle + (angleStep * i);
+            Vector3 dir = Quaternion.Euler(0, angle, 0) * baseDir;
 
-        FireSmallStone(Quaternion.Euler(0, 15f, 0) * dir);
+            FireSmallBall(dir);
+            yield return new WaitForSeconds(delay);
+        } 
         isAttacking = false;
     }
+
+    public void Attack_Spin(int spinCount = 1, int bulletCount = 12, float duration = 3)
+    {
+        StartCoroutine(SpinAndFire(spinCount, bulletCount, duration));
+    }
+
+    IEnumerator SpinAndFire(int spinCount, int bulletCount, float duration)
+    {
+        isAttacking = true;
+
+        float elapsed = 0f;
+        float fireInterval = duration / bulletCount;
+        float rotationSpeed = 360f * spinCount / duration;
+
+        int firedCount = 0;
+
+        while (elapsed < duration)
+        {
+            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+
+            if (elapsed >= firedCount * fireInterval)
+            {
+                FireSmallBall(transform.forward - transform.up*0.1f, 30);
+                firedCount++;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        isAttacking = false;
+    }
+    
 
     public void Attack_BigBalls(Transform target)
     {
