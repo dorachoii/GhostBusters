@@ -47,6 +47,7 @@ public class BossContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    
         switch (currentState)
         {
             case BossState.Idle:
@@ -54,24 +55,25 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Patrol:
             case BossState.FastPatrol:
-                //DetectPlayer();
+                // TODO: Player가 감지되어야만 탈출하는 구조
+                DetectPlayer();
                 break;
         }
     }
 
     public void ChangeState(BossState s)
     {
-        Debug.Log($"currentState: - ChangeState {currentState}");
-
         if (currentState == s) return;
         currentState = s;
 
+        Debug.Log($"currentState: - ChangeState {currentState}");
 
         switch (currentState)
         {
             case BossState.Idle:
                 patrol.Stop();
                 animator.SetBool("IsMoving", false);
+                animator.SetBool("IsFastMoving", false);
                 break;
             case BossState.Patrol:
                 patrol.Patrol(15);
@@ -87,6 +89,7 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Hit:
                 animator.SetTrigger("HitTrigger");
+                // TODO: 링은 던졌을 때만 공격하도록 해야함..
                 break;
             case BossState.Attack_Prepare:
                 patrol.Stop();
@@ -114,6 +117,7 @@ public class BossContoller : MonoBehaviour
         }
     }
 
+    // TODO: 여기도 고쳐야함
     public void DecideAttackAfterPrepare()
     {
         switch (stats.currentPhase)
@@ -129,6 +133,18 @@ public class BossContoller : MonoBehaviour
                 {
                     LastAttack = BossState.Attack_3Balls;
                     ChangeState(BossState.Attack_3Balls);
+                }
+                break;
+            case BossPhase.Phase3:
+                if (LastAttack == BossState.Attack_Spin)
+                {
+                    LastAttack = BossState.Attack_BigBall;
+                    ChangeState(BossState.Attack_BigBall);
+                }
+                else
+                {
+                    LastAttack = BossState.Attack_BigBall;
+                    ChangeState(BossState.Attack_Spin);
                 }
                 break;
         }
@@ -161,10 +177,10 @@ public class BossContoller : MonoBehaviour
     void DetectPlayer()
     {
         float dist = Vector3.Distance(patrol.player.position, transform.position);
-        Debug.Log($"currentState: detectPlayer {dist}");
-
-        if (dist < 4f && currentState != BossState.Attack_Prepare)
+        
+        if (dist < 10f)
         {
+            Debug.Log($"currentState: detectPlayer {dist}");
             ChangeState(BossState.Attack_Prepare);
         }
     }

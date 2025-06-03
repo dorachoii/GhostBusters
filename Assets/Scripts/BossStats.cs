@@ -30,8 +30,10 @@ public class BossStats : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+
         currentHP = Mathf.Max(currentHP - amount, 0);
         OnHPChanged?.Invoke(currentHP);
+        Debug.Log($"currentBossHP: {currentHP}");
 
         if (currentHP <= 0)
         {
@@ -41,15 +43,17 @@ public class BossStats : MonoBehaviour
 
         controller.ChangeState(BossState.Hit);
 
-        if (currentHP == 20) ChangePhase(BossPhase.Phase2);
-        else if (currentHP == 10) ChangePhase(BossPhase.Phase3);
+        if (currentHP <= 10) ChangePhase(BossPhase.Phase3);
+        else if (currentHP <= 20) ChangePhase(BossPhase.Phase2);
     }
 
     private void ChangePhase(BossPhase newPhase)
     {
+
         if (currentPhase == newPhase) return;
 
         currentPhase = newPhase;
         OnPhaseChanged?.Invoke(currentPhase);
+        Debug.Log($"currentBossHP: currentPhase{currentPhase}");
     }
 }
