@@ -16,6 +16,25 @@ public class BossAttack : MonoBehaviour
 
     float blowPower = 4.5f;
 
+    private void OnEnable()
+    {
+        BossRock.OnBigBallHit += HandleBigBallHit;
+    }
+
+    private void OnDisable()
+    {
+        BossRock.OnBigBallHit -= HandleBigBallHit;
+    }
+
+    private void HandleBigBallHit(RockType rockType)
+    {
+        if (rockType == RockType.BigBall)
+        {
+            SetBreathActive(false);
+        }
+    }
+
+
     public void Attack_3Balls(Transform target)
     {
         if (isAttacking) return;
@@ -48,12 +67,16 @@ public class BossAttack : MonoBehaviour
     public void Attack_BigBalls(Transform target)
     {
         GameObject rock = Instantiate(bossRocks[1], bigBallPos.position + bigBallPos.forward * 1.3f, Quaternion.identity);
-        GameObject breath = Instantiate(bossBreathFX, bigBallPos.position, Quaternion.identity, bigBallPos);
-        breath.transform.forward = transform.forward;
+        SetBreathActive(true);
 
         Vector3 dir = rock.GetComponent<BossRock>().dir;
 
         rock.GetComponent<Rigidbody>().AddForce(dir * blowPower, ForceMode.Impulse);
+    }
+
+    public void SetBreathActive(bool active)
+    {
+        bossBreathFX.SetActive(active);
     }
 
 
@@ -75,6 +98,6 @@ public class BossAttack : MonoBehaviour
     }
 
 
-
+// ON, OFF로 바꾸기 Breath
 }
 

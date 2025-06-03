@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
-using Unity.Cinemachine;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.Events;
 using UnityEngine;
 
 public enum RockType
@@ -28,7 +28,7 @@ public class BossRock : MonoBehaviour
 {
     public RockType rockType;
     private bool hasHit = false;
-
+    public static event Action<RockType> OnBigBallHit;
     private static readonly Dictionary<RockType, RockProperties> rockDic = new Dictionary<RockType, RockProperties>
     {
         {RockType.SmallBall, new RockProperties(toPlayer: 20, toBoss: 0, life: 15f)},
@@ -39,6 +39,7 @@ public class BossRock : MonoBehaviour
     private float lifeTime = 15f;
     private GameObject boss;
     private Transform playerTransform;
+    private Transform bossTransform;
     private Rigidbody rb;
 
     public Vector3 dir;
@@ -49,10 +50,15 @@ public class BossRock : MonoBehaviour
         DestroySelf(rockDic[rockType].lifeTime);
         rb = GetComponent<Rigidbody>();
 
-        boss = GameObject.FindWithTag("Boss");
+        bossTransform = GameObject.FindWithTag("Boss").transform;
         playerTransform = GameObject.FindWithTag("Player").transform;
-        dir = (playerTransform.position - boss.transform.position).normalized;
+        dir = (playerTransform.position - bossTransform.transform.position).normalized;
 
+    }
+
+    void Start()
+    {
+        boss = GameObject.FindWithTag("Boss");
     }
 
     void OnCollisionEnter(Collision collision)
@@ -90,6 +96,8 @@ public class BossRock : MonoBehaviour
         {
             case RockType.SmallBall: break;
             case RockType.BigBall:
+                OnBigBallHit?.Invoke(rockType);
+                break;
             case RockType.Ring: break;
         }
 

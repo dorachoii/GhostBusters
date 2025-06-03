@@ -1691,7 +1691,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.756, z: 0.39}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 571083887}
   m_Father: {fileID: 966652036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &252494005
@@ -3212,6 +3213,77 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4994195461900782, guid: 0f06ecfa33f4cb348ab804a22c6de5ba, type: 3}
   m_PrefabInstance: {fileID: 547676131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &571083886
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 252494004}
+    m_Modifications:
+    - target: {fileID: 1753940698996367400, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_Name
+      value: BossSmokeFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753940698996367400, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa3ab5301129c204294bd33655617256, type: 3}
+--- !u!4 &571083887 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2533535550310319726, guid: fa3ab5301129c204294bd33655617256, type: 3}
+  m_PrefabInstance: {fileID: 571083886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &571083888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1753940698996367400, guid: fa3ab5301129c204294bd33655617256, type: 3}
+  m_PrefabInstance: {fileID: 571083886}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &575723660
 PrefabInstance:
@@ -5808,7 +5880,7 @@ MonoBehaviour:
   bossRocks:
   - {fileID: 764334619504837681, guid: 5e3f43341d0126d458439ff175a6f205, type: 3}
   - {fileID: 8015988496028014783, guid: 095faae64c6b3a4448271246e4523c0d, type: 3}
-  bossBreathFX: {fileID: 1753940698996367400, guid: fa3ab5301129c204294bd33655617256, type: 3}
+  bossBreathFX: {fileID: 571083888}
   firePos: {fileID: 1978781187}
   bigBallPos: {fileID: 252494004}
 --- !u!114 &997255607
