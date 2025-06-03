@@ -44,7 +44,7 @@ public class BossRock : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        Destroy(gameObject, lifeTime);
+        DestroySelf(rockDic[rockType].lifeTime);
         rb = GetComponent<Rigidbody>();
 
         bossTransform = GameObject.FindWithTag("Boss").transform;
@@ -63,7 +63,7 @@ public class BossRock : MonoBehaviour
                 playerStats.TakeDamage(damageToPlayer);
             }
 
-            Destroy(gameObject);
+            DestroySelf();
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Boss"))
@@ -75,7 +75,22 @@ public class BossRock : MonoBehaviour
                 boss.TakeDamage(damageToBoss);
             }
 
-            Destroy(gameObject);
+            DestroySelf();
         }
     }
+
+    void DestroySelf(float lifeTime = 0)
+    {
+        switch (rockType)
+        {
+            case RockType.SmallBall: break;
+            case RockType.BigBall:
+                bossTransform.gameObject.GetComponent<BossAttack>().DestroyBreath();
+                break;
+            case RockType.Ring: break;
+        }
+
+        Destroy(gameObject, lifeTime);
+    }
+
 }

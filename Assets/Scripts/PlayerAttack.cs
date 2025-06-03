@@ -100,9 +100,7 @@ public class PlayerAttack : MonoBehaviour
     private void ApplyVacuum(float direction)
     {
         Collider[] targets = Physics.OverlapSphere(transform.position, suckRange, LayerMask.GetMask("Item", "BossRock"));
-
-        Debug.Log($"PlayerAttack - targets {targets.Length}");
-
+        
         Vector3 forward = transform.forward;
         float halfFOV = suckAngle * 0.5f;
 
@@ -110,10 +108,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (target.attachedRigidbody != null)
             {
-                Debug.Log($"PlayerAttack - targets layer {target.gameObject.layer}");
-
                 Vector3 dir = (transform.position - target.transform.position).normalized;
-                Debug.Log($"PlayerAttack {dir}");
                 float angle = Vector3.Angle(forward, dir);
                 float distance = Vector3.Distance(transform.position, target.transform.position);
 
@@ -133,7 +128,6 @@ public class PlayerAttack : MonoBehaviour
                 if (target.gameObject.layer == LayerMask.NameToLayer("BossRock") && target.gameObject.CompareTag("BigBall"))
                 {
                     dir = target.gameObject.GetComponent<BossRock>().dir;
-                    Debug.Log($"PlayerAttack - BossRock {dir}");
                 }
 
                 target.attachedRigidbody.AddForce(direction * dir * power, ForceMode.Impulse);
@@ -180,7 +174,7 @@ public class PlayerAttack : MonoBehaviour
                 child.SetParent(null);
                 child.position += forward * 0.5f;
                 rb.isKinematic = false;
-                rb.AddForce(forward * 10f + Vector3.up * 3f, ForceMode.Impulse);
+                rb.AddForce(forward * 10f + Vector3.up * 5f, ForceMode.Impulse);
                 stats.LoseItem();
             }
         }

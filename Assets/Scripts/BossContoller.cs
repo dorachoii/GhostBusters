@@ -7,6 +7,7 @@ public enum BossState
     Idle,
     Patrol,
     FastPatrol,
+    Change,
     Attack_Prepare,
     Attack_BigBall,
     Attack_3Balls,
@@ -23,7 +24,8 @@ public class BossContoller : MonoBehaviour
     private Animator animator;
     private BossPatrol patrol;
     private BossAttack attack;
-    
+    private BossChange change;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +34,7 @@ public class BossContoller : MonoBehaviour
         animator = GetComponent<Animator>();
         patrol = GetComponent<BossPatrol>();
         attack = GetComponent<BossAttack>();
+        change = GetComponent<BossChange>();
     }
 
     // Update is called once per frame
@@ -39,7 +42,7 @@ public class BossContoller : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            ChangeState(BossState.Attack_Prepare);
+            ChangeState(BossState.Change);
         }
 
         // if (Input.GetKeyUp(KeyCode.Space))
@@ -65,6 +68,10 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.FastPatrol:
                 break;
+            case BossState.Change:
+                animator.SetTrigger("ChangeTrigger");
+                change.PhaseChange();
+                break;
             case BossState.Hit:
                 animator.SetTrigger("HitTrigger");
                 break;
@@ -83,6 +90,7 @@ public class BossContoller : MonoBehaviour
             case BossState.Attack_8Balls:
                 break;
             case BossState.Die:
+                animator.SetTrigger("DeathTrigger");
                 break;
             default:
                 break;
