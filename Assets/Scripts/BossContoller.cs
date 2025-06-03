@@ -31,6 +31,8 @@ public class BossContoller : MonoBehaviour
     void Start()
     {
         stats = GetComponent<BossStats>();
+        stats.OnPhaseChanged += HandlePhaseChanged;
+
         animator = GetComponent<Animator>();
         patrol = GetComponent<BossPatrol>();
         attack = GetComponent<BossAttack>();
@@ -42,7 +44,7 @@ public class BossContoller : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            ChangeState(BossState.Change);
+            ChangeState(BossState.Attack_Prepare);
         }
 
         // if (Input.GetKeyUp(KeyCode.Space))
@@ -77,7 +79,7 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Attack_Prepare:
                 animator.SetTrigger("AttackTrigger");
-                
+
                 break;
             case BossState.Attack_BigBall:
                 attack.StartSmoothLookAt(patrol.player.transform);
@@ -114,6 +116,14 @@ public class BossContoller : MonoBehaviour
                     ChangeState(BossState.Attack_3Balls);
                 }
                 break;
+        }
+    }
+
+    void HandlePhaseChanged(BossPhase newPhase)
+    {
+        if (newPhase == BossPhase.Phase3)
+        {
+            ChangeState(BossState.Change);
         }
     }
 }

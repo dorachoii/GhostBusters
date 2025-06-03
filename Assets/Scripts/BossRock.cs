@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Cinemachine;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum RockType
@@ -26,16 +27,17 @@ public struct RockProperties
 public class BossRock : MonoBehaviour
 {
     public RockType rockType;
+    private bool hasHit = false;
 
     private static readonly Dictionary<RockType, RockProperties> rockDic = new Dictionary<RockType, RockProperties>
     {
         {RockType.SmallBall, new RockProperties(toPlayer: 20, toBoss: 0, life: 15f)},
         {RockType.BigBall, new RockProperties(toPlayer: 30, toBoss: 10, life: 10f)},
-        {RockType.Ring, new RockProperties(toPlayer: 0, toBoss: 2, life: 5f)},
+        {RockType.Ring, new RockProperties(toPlayer: 0, toBoss: 2, life: 30f)},
     };
 
     private float lifeTime = 15f;
-    private Transform bossTransform;
+    private GameObject boss;
     private Transform playerTransform;
     private Rigidbody rb;
 
@@ -47,13 +49,16 @@ public class BossRock : MonoBehaviour
         DestroySelf(rockDic[rockType].lifeTime);
         rb = GetComponent<Rigidbody>();
 
-        bossTransform = GameObject.FindWithTag("Boss").transform;
+        boss = GameObject.FindWithTag("Boss");
         playerTransform = GameObject.FindWithTag("Player").transform;
-        dir = (playerTransform.position - bossTransform.position).normalized;
+        dir = (playerTransform.position - boss.transform.position).normalized;
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (hasHit) return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
@@ -62,7 +67,7 @@ public class BossRock : MonoBehaviour
                 int damageToPlayer = rockDic[rockType].damageToPlayer;
                 playerStats.TakeDamage(damageToPlayer);
             }
-
+            hasHit = true;
             DestroySelf();
         }
 
@@ -74,7 +79,7 @@ public class BossRock : MonoBehaviour
                 int damageToBoss = rockDic[rockType].damageToBoss;
                 boss.TakeDamage(damageToBoss);
             }
-
+            hasHit = true;
             DestroySelf();
         }
     }
@@ -85,8 +90,6 @@ public class BossRock : MonoBehaviour
         {
             case RockType.SmallBall: break;
             case RockType.BigBall:
-                bossTransform.gameObject.GetComponent<BossAttack>().DestroyBreath();
-                break;
             case RockType.Ring: break;
         }
 

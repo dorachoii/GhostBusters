@@ -7,7 +7,6 @@ public class BossAttack : MonoBehaviour
 {
     public GameObject[] bossRocks;
     public GameObject bossBreathFX;
-    private GameObject currentBreath;
 
     public Transform firePos;
     public Transform bigBallPos;
@@ -16,16 +15,6 @@ public class BossAttack : MonoBehaviour
     private bool isAttacking = false;
 
     float blowPower = 4.5f;
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Attack_BigBalls(GameObject.FindGameObjectWithTag("Player").transform);
-        }
-    }
-
-    // Update is called once per frame
 
     public void Attack_3Balls(Transform target)
     {
@@ -59,22 +48,14 @@ public class BossAttack : MonoBehaviour
     public void Attack_BigBalls(Transform target)
     {
         GameObject rock = Instantiate(bossRocks[1], bigBallPos.position + bigBallPos.forward * 1.3f, Quaternion.identity);
-        currentBreath = Instantiate(bossBreathFX, bigBallPos.position, Quaternion.identity, bigBallPos);
-        currentBreath.transform.forward = transform.forward;
+        GameObject breath = Instantiate(bossBreathFX, bigBallPos.position, Quaternion.identity, bigBallPos);
+        breath.transform.forward = transform.forward;
 
         Vector3 dir = rock.GetComponent<BossRock>().dir;
 
         rock.GetComponent<Rigidbody>().AddForce(dir * blowPower, ForceMode.Impulse);
     }
 
-    public void DestroyBreath()
-    {
-        if (currentBreath != null)
-        {
-            Destroy(currentBreath);
-            currentBreath = null;
-        }
-    }
 
     public void StartSmoothLookAt(Transform target)
     {
