@@ -8,6 +8,7 @@ TagManager:
   - Heart
   - SmallBall
   - BigBall
+  - Boss
   layers:
   - Default
   - TransparentFX

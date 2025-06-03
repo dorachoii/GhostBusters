@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI coinText;
+    public GameObject gameOverCanvas;
 
 
     private void OnEnable()
@@ -24,10 +25,20 @@ public class UIManager : MonoBehaviour
     private void UpdateHPUI(int newHP)
     {
         hpText.text = newHP.ToString();
+
+        if (newHP <= 0) ShowGameOver();
     }
 
     private void UpdateCoinUI(int newItem)
     {
         coinText.text = $"{newItem.ToString()} / {playerStats.maxItem}";
+    }
+
+    private void ShowGameOver()
+    {
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(true);
+        }
     }
 }

@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     {
         controller = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
+        rb.linearDamping = 3f;
     }
 
     private void OnEnable()

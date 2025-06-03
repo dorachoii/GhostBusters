@@ -9,6 +9,7 @@ public class BossAttack : MonoBehaviour
     public GameObject bossBreathFX;
 
     public Transform firePos;
+    public Transform bigBallPos;
     private float rockSpeed = 20f;
     private float delayBetweenShots = 0.5f;
     private bool isAttacking = false;
@@ -28,7 +29,7 @@ public class BossAttack : MonoBehaviour
     public void Attack_3Balls(Transform target)
     {
         if (isAttacking) return;
-        StartCoroutine (IFire3Shot(target));
+        StartCoroutine(IFire3Shot(target));
     }
 
     void FireSmallStone(Vector3 dir)
@@ -37,7 +38,7 @@ public class BossAttack : MonoBehaviour
         rock.GetComponent<Rigidbody>().linearVelocity = dir * rockSpeed;
     }
 
-   
+
 
     IEnumerator IFire3Shot(Transform target)
     {
@@ -56,12 +57,31 @@ public class BossAttack : MonoBehaviour
 
     public void Attack_BigBalls(Transform target)
     {
-        GameObject rock = Instantiate(bossRocks[1], firePos.position + Vector3.down * 0.8f, Quaternion.identity);
-        GameObject breath = Instantiate(bossBreathFX, firePos.position, Quaternion.identity);
+        GameObject rock = Instantiate(bossRocks[1], bigBallPos.position + bigBallPos.forward * 1.3f, Quaternion.identity);
+        GameObject breath = Instantiate(bossBreathFX, bigBallPos.position, Quaternion.identity, bigBallPos);
         breath.transform.forward = transform.forward;
 
-        Vector3 dir = rock.transform.position - gameObject.transform.position;
+        Vector3 dir = rock.GetComponent<BossRock>().dir;
 
         rock.GetComponent<Rigidbody>().AddForce(dir * blowPower, ForceMode.Impulse);
     }
+
+    public void StartSmoothLookAt(Transform target)
+    {
+        StartCoroutine(SmoothLookAtCoroutine(target));
+    }
+
+    IEnumerator SmoothLookAtCoroutine(Transform target)
+    {
+        while (true)
+        {
+            Vector3 dir = target.position - transform.position;
+
+            Quaternion targetRot = Quaternion.LookRotation(dir.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 5f);
+            yield return null;
+        }
+    }
+
 }
+

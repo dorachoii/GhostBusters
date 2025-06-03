@@ -18,16 +18,23 @@ public class BossStats : MonoBehaviour
     public event Action<int> OnHPChanged;
     public event Action<BossPhase> OnPhaseChanged;
 
+    BossContoller controller;
+
     void Awake()
     {
         currentHP = maxHP;
         OnHPChanged?.Invoke(currentHP);
+        controller = gameObject.GetComponent<BossContoller>();
+        
     }
 
     public void TakeDamage(int amount)
     {
+        Debug.Log("TakeDamage");
         currentHP -= amount;
         OnHPChanged?.Invoke(currentHP);
+
+        controller.ChangeState(BossState.Hit);
 
         if (currentHP == 20) ChangePhase(BossPhase.Phase2);
         else if (currentHP == 10) ChangePhase(BossPhase.Phase3);

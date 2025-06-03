@@ -18,10 +18,12 @@ public enum BossState
 public class BossContoller : MonoBehaviour
 {
     public BossState currentState = BossState.Idle;
+    public BossState LastAttack = BossState.Attack_BigBall;
     private BossStats stats;
     private Animator animator;
     private BossPatrol patrol;
     private BossAttack attack;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,13 +66,18 @@ public class BossContoller : MonoBehaviour
             case BossState.FastPatrol:
                 break;
             case BossState.Hit:
+                animator.SetTrigger("HitTrigger");
                 break;
             case BossState.Attack_Prepare:
                 animator.SetTrigger("AttackTrigger");
+                
                 break;
             case BossState.Attack_BigBall:
+                attack.StartSmoothLookAt(patrol.player.transform);
+                attack.Attack_BigBalls(patrol.player.transform);
                 break;
             case BossState.Attack_3Balls:
+                attack.StartSmoothLookAt(patrol.player.transform);
                 attack.Attack_3Balls(patrol.player.transform);
                 break;
             case BossState.Attack_8Balls:
@@ -78,6 +85,26 @@ public class BossContoller : MonoBehaviour
             case BossState.Die:
                 break;
             default:
+                break;
+        }
+    }
+
+    public void DecideAttackAfterPrepare()
+    {
+        switch (stats.currentPhase)
+        {
+            case BossPhase.Phase1:
+            case BossPhase.Phase2:
+                if (LastAttack == BossState.Attack_3Balls)
+                {
+                    LastAttack = BossState.Attack_BigBall;
+                    ChangeState(BossState.Attack_BigBall);
+                }
+                else
+                {
+                    LastAttack = BossState.Attack_3Balls;
+                    ChangeState(BossState.Attack_3Balls);
+                }
                 break;
         }
     }
