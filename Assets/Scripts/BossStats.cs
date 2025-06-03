@@ -25,12 +25,11 @@ public class BossStats : MonoBehaviour
         currentHP = maxHP;
         OnHPChanged?.Invoke(currentHP);
         controller = gameObject.GetComponent<BossContoller>();
-        
+
     }
 
     public void TakeDamage(int amount)
     {
-        Debug.Log("TakeDamage");
         currentHP -= amount;
         OnHPChanged?.Invoke(currentHP);
 
@@ -45,6 +44,13 @@ public class BossStats : MonoBehaviour
         if (currentPhase == newPhase) return;
 
         currentPhase = newPhase;
-        OnPhaseChanged?.Invoke(currentPhase);    
+        OnPhaseChanged?.Invoke(currentPhase);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log($"boss collision occured{collision.gameObject.tag}");
+        Debug.Log($"boss collision occured bossHP {currentHP}");
+        
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - SmallBall
   - BigBall
   - Boss
+  - Ring
   layers:
   - Default
   - TransparentFX

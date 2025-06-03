@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  rockType: 1
+  dir: {x: 0, y: 0, z: 0}
 --- !u!135 &4526649086684157698
 SphereCollider:
   m_ObjectHideFlags: 0

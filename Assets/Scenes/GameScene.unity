@@ -262,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -327,6 +327,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 65584876}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 65584881}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &65584875 stripped
 GameObject:
@@ -360,6 +363,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &65584881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65584875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1001 &70220682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -382,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -447,6 +464,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 70220684}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 70220689}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &70220683 stripped
 GameObject:
@@ -480,6 +500,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &70220689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70220683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &84971368
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -811,6 +845,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 111707636}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 111707641}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &111707635 stripped
 GameObject:
@@ -844,6 +881,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &111707641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111707635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &121101016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2271,7 +2322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -2336,6 +2387,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 372276641}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 372276646}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &372276640 stripped
 GameObject:
@@ -2369,6 +2423,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &372276646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372276640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &387159578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3110,7 +3178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -3175,6 +3243,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 575723662}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 575723667}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &575723661 stripped
 GameObject:
@@ -3208,6 +3279,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &575723667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575723661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &605575898
 GameObject:
   m_ObjectHideFlags: 0
@@ -3633,7 +3718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_TagString
-      value: Item
+      value: Ring
       objectReference: {fileID: 0}
     - target: {fileID: 2985298276688382286, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       propertyPath: m_LocalScale.x
@@ -3698,6 +3783,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
       insertIndex: -1
       addedObject: {fileID: 712400523}
+    - targetCorrespondingSourceObject: {fileID: 2460716213524272116, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 712400528}
   m_SourcePrefab: {fileID: 100100000, guid: 42d1ce3ac52e9994d9a6b7c142d61067, type: 3}
 --- !u!1 &712400522 stripped
 GameObject:
@@ -3731,6 +3819,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &712400528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712400522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae50987080a204d8e974c4dc3d0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockType: 2
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &727617909
 GameObject:
   m_ObjectHideFlags: 0
@@ -6818,8 +6920,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1293312626
 GameObject:
@@ -10126,8 +10228,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 1544314716}
-  hpText: {fileID: 527350839}
+  bossStats: {fileID: 997255599}
+  playerHPText: {fileID: 527350839}
   coinText: {fileID: 1623677714}
+  bossHP: {fileID: 1676800307}
   gameOverCanvas: {fileID: 1545863720}
 --- !u!1 &1978781186
 GameObject:

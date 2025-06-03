@@ -1,19 +1,22 @@
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
-    public TextMeshProUGUI hpText;
-    public TextMeshProUGUI coinText;
-    public GameObject gameOverCanvas;
+    [SerializeField] private BossStats bossStats;
 
+    public TextMeshProUGUI playerHPText;
+    public TextMeshProUGUI coinText;
+    public Slider bossHP;
+    public GameObject gameOverCanvas;
 
     private void OnEnable()
     {
         playerStats.OnHPChanged += UpdateHPUI;
         playerStats.OnCoinChanged += UpdateCoinUI;
+        bossStats.OnHPChanged += UpdateBossHPSlider;
     }
 
     private void OnDisable()
@@ -24,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateHPUI(int newHP)
     {
-        hpText.text = newHP.ToString();
+        playerHPText.text = newHP.ToString();
 
         if (newHP <= 0) ShowGameOver();
     }
@@ -32,6 +35,12 @@ public class UIManager : MonoBehaviour
     private void UpdateCoinUI(int newItem)
     {
         coinText.text = $"{newItem.ToString()} / {playerStats.maxItem}";
+    }
+
+    private void UpdateBossHPSlider(int newHP)
+    {
+        bossHP.maxValue = bossStats.maxHP;
+        bossHP.value = newHP;
     }
 
     private void ShowGameOver()

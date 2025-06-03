@@ -1,9 +1,39 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
+public enum RockType
+{
+    SmallBall,
+    BigBall,
+    Ring
+}
+
+public struct RockProperties
+{
+    public int damageToPlayer;
+    public int damageToBoss;
+    public float lifeTime;
+
+    public RockProperties(int toPlayer, int toBoss, float life)
+    {
+        damageToPlayer = toPlayer;
+        damageToBoss = toBoss;
+        lifeTime = life;
+    }
+}
+
 public class BossRock : MonoBehaviour
 {
-    private int damage = 20;
+    public RockType rockType;
+
+    private static readonly Dictionary<RockType, RockProperties> rockDic = new Dictionary<RockType, RockProperties>
+    {
+        {RockType.SmallBall, new RockProperties(toPlayer: 20, toBoss: 0, life: 15f)},
+        {RockType.BigBall, new RockProperties(toPlayer: 30, toBoss: 10, life: 10f)},
+        {RockType.Ring, new RockProperties(toPlayer: 0, toBoss: 2, life: 5f)},
+    };
+
     private float lifeTime = 15f;
     private Transform bossTransform;
     private Transform playerTransform;
@@ -14,9 +44,7 @@ public class BossRock : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        damage = gameObject.tag == "SmallBall" ? 20 : 30;
         Destroy(gameObject, lifeTime);
-
         rb = GetComponent<Rigidbody>();
 
         bossTransform = GameObject.FindWithTag("Boss").transform;
@@ -24,22 +52,15 @@ public class BossRock : MonoBehaviour
         dir = (playerTransform.position - bossTransform.position).normalized;
     }
 
-    // TODO: 
-    // 이 락이 생성될 때, 보스와 플레이어를 이은 일직선 범위로만 이동하고 싶어.
-    // 이동 범위를 일직선으로 한정하고 싶은 거지. 무슨 말인지 알지?
-
-
-
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            GameObject player = collision.gameObject;
-
-            PlayerStats playerStats = player.GetComponent<PlayerStats>();
+            PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
-                playerStats.TakeDamage(damage);
+                int damageToPlayer = rockDic[rockType].damageToPlayer;
+                playerStats.TakeDamage(damageToPlayer);
             }
 
             Destroy(gameObject);
@@ -50,11 +71,11 @@ public class BossRock : MonoBehaviour
             BossStats boss = collision.gameObject.GetComponent<BossStats>();
             if (boss != null)
             {
-                boss.TakeDamage(damage);
+                int damageToBoss = rockDic[rockType].damageToBoss;
+                boss.TakeDamage(damageToBoss);
             }
 
             Destroy(gameObject);
         }
     }
-    
 }

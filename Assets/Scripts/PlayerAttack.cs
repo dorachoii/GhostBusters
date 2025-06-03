@@ -130,7 +130,7 @@ public class PlayerAttack : MonoBehaviour
 
                 float power = Mathf.Lerp(suckPower, 0, distance / suckRange);
 
-                if (target.gameObject.layer == LayerMask.NameToLayer("BossRock"))
+                if (target.gameObject.layer == LayerMask.NameToLayer("BossRock") && target.gameObject.CompareTag("BigBall"))
                 {
                     dir = target.gameObject.GetComponent<BossRock>().dir;
                     Debug.Log($"PlayerAttack - BossRock {dir}");
@@ -146,10 +146,9 @@ public class PlayerAttack : MonoBehaviour
     {
         target.attachedRigidbody.linearVelocity = Vector3.zero;
 
-        if (target.gameObject.CompareTag("Item"))
+        if (target.gameObject.CompareTag("Ring"))
         {
             if (transform.GetChild(1).childCount > stats.maxItem) return;
-            Debug.Log("d" + transform.GetChild(1).childCount);
             target.attachedRigidbody.isKinematic = true;
             target.transform.SetParent(transform.GetChild(1), true);
             stats.GainItem();
