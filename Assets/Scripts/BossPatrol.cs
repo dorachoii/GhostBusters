@@ -21,6 +21,7 @@ public class BossPatrol : MonoBehaviour
 
     public void Stop()
     {
+        agent.speed = 0;
         agent.isStopped = true;
     }
 }

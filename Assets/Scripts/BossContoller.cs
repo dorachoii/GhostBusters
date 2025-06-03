@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,10 +27,14 @@ public class BossContoller : MonoBehaviour
     private BossAttack attack;
     private BossChange change;
 
+    float idleTimer = 0f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log($"currentState: first {currentState}");
+
         stats = GetComponent<BossStats>();
         stats.OnPhaseChanged += HandlePhaseChanged;
 
@@ -42,21 +47,17 @@ public class BossContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            ChangeState(BossState.Attack_Spin);
-        }
+        DetectPlayer();
 
-        // if (Input.GetKeyUp(KeyCode.Space))
-        // {
-        //     ChangeState(BossState.Idle);
-        // }
     }
 
     public void ChangeState(BossState s)
     {
+        Debug.Log($"currentState: - ChangeState {currentState}");
+
         if (currentState == s) return;
         currentState = s;
+
 
         switch (currentState)
         {
@@ -65,11 +66,12 @@ public class BossContoller : MonoBehaviour
                 animator.SetBool("IsMoving", false);
                 break;
             case BossState.Patrol:
-                patrol.Patrol(30);
+                patrol.Patrol(15);
                 animator.SetBool("IsMoving", true);
                 break;
             case BossState.FastPatrol:
-                patrol.Patrol(40);
+                animator.SetBool("IsFastMoving", true);
+                patrol.Patrol(30);
                 break;
             case BossState.Change:
                 animator.SetTrigger("ChangeTrigger");
@@ -79,17 +81,21 @@ public class BossContoller : MonoBehaviour
                 animator.SetTrigger("HitTrigger");
                 break;
             case BossState.Attack_Prepare:
+                patrol.Stop();
                 animator.SetTrigger("AttackTrigger");
                 break;
             case BossState.Attack_BigBall:
+                animator.SetTrigger("SpinTrigger");
                 attack.StartSmoothLookAt(patrol.player.transform);
                 attack.Attack_BigBalls(patrol.player.transform);
                 break;
             case BossState.Attack_3Balls:
+                animator.SetTrigger("SpinTrigger");
                 attack.StartSmoothLookAt(patrol.player.transform);
                 attack.Attack_SmallBalls(patrol.player.transform, 3);
                 break;
             case BossState.Attack_Spin:
+                animator.SetTrigger("SpinTrigger");
                 attack.Attack_Spin();
                 break;
             case BossState.Die:
@@ -127,23 +133,33 @@ public class BossContoller : MonoBehaviour
             ChangeState(BossState.Change);
         }
     }
+
+    void HandleIdle()
+    {
+        DetectPlayer();
+
+        idleTimer += Time.deltaTime;
+
+        float waitTime = (stats.currentPhase == BossPhase.Phase3) ? 1f : 2f;
+
+        if (idleTimer >= waitTime)
+        {
+            Debug.Log($"currentState: idleTimerReset {idleTimer}");
+            idleTimer = 0f;
+
+            if (stats.currentPhase == BossPhase.Phase3) ChangeState(BossState.FastPatrol);
+            else ChangeState(BossState.Patrol);
+        }
+    }
+
+    void DetectPlayer()
+    {
+        float dist = Vector3.Distance(patrol.player.position, transform.position);
+        Debug.Log($"currentState: detectPlayer {dist}");
+
+        if (dist < 4f && currentState != BossState.Attack_Prepare)
+        {
+            ChangeState(BossState.Attack_Prepare);
+        }
+    }
 }
-
-
-
-// 보스 목숨 3개
-
-// 목숨 3,2개 남았을 때:
-// 공격 패턴 1: 따라가면서 불쏘기 1번
-// 공격 패턴 2: 큰 공쏴서 줄다리기 1번
-
-// 큰 공 맞으면 목숨 1개 사라짐 
-// 혹은 링 모아서 5개 맞추면 목숨 한 개 사라짐짐 
-
-// 목숨 1개 남았을 때:
-
-// 공격 패턴 1: 불 빨라짐 (사방 공격하지뭐)
-// 공격 패턴 2: 큰 공쏴서 줄다리기
-
-// 큰 공 맞추면 목숨 1개 사라짐. 근데 아까보다 공 미는 힘이 강해짐
-// 혹은 링 모아서 10개 맞추면 목숨 한 개 사라짐짐
