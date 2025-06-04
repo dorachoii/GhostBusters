@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI coinText;
     public Slider bossHP;
     public GameObject gameOverCanvas;
+    public TextMeshProUGUI gameOverText;
 
     private void OnEnable()
     {
@@ -29,7 +30,7 @@ public class UIManager : MonoBehaviour
     {
         playerHPText.text = newHP.ToString();
 
-        if (newHP <= 0) ShowGameOver();
+        if (newHP <= 0) ShowGameOver("Game Over!");
     }
 
     private void UpdateCoinUI(int newItem)
@@ -41,13 +42,16 @@ public class UIManager : MonoBehaviour
     {
         bossHP.maxValue = bossStats.maxHP;
         bossHP.value = newHP;
+
+        if (newHP <= 0) ShowGameOver("Game Clear!");
     }
 
-    private void ShowGameOver()
+    private void ShowGameOver(string text)
     {
         if (gameOverCanvas != null)
         {
             gameOverCanvas.SetActive(true);
+            gameOverText.text = text;
         }
     }
 }

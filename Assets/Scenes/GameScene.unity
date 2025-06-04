@@ -8650,6 +8650,7 @@ MonoBehaviour:
   coinText: {fileID: 1623677714}
   bossHP: {fileID: 1676800307}
   gameOverCanvas: {fileID: 1545863720}
+  gameOverText: {fileID: 2067496105}
 --- !u!1 &1978781186
 GameObject:
   m_ObjectHideFlags: 0
