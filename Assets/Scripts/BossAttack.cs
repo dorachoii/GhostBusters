@@ -32,7 +32,6 @@ public class BossAttack : MonoBehaviour
         }
     }
 
-
     public void Attack_SmallBalls(Transform target, int cnt, float delay = 0.5f, int angleStep = 15)
     {
         if (isAttacking) return;
@@ -112,7 +111,6 @@ public class BossAttack : MonoBehaviour
         bossBreathFX.SetActive(active);
     }
 
-
     public void StartSmoothLookAt(Transform target)
     {
         StartCoroutine(SmoothLookAtCoroutine(target));
@@ -129,8 +127,5 @@ public class BossAttack : MonoBehaviour
             yield return null;
         }
     }
-
-
-// ON, OFF로 바꾸기 Breath
 }
 

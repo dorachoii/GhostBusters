@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using SBS.ME;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -131,7 +132,12 @@ public class PlayerAttack : MonoBehaviour
                 }
 
                 target.attachedRigidbody.AddForce(direction * dir * power, ForceMode.Impulse);
-                
+
+                if (target.gameObject.layer == LayerMask.NameToLayer("Item") && target.gameObject.CompareTag("Building"))
+                {
+                    target.GetComponent<MeshExploder>().enabled = true;
+                    target.GetComponent<MeshExploder>().EXPLODE();
+                }
             }
         }
     }
