@@ -58,7 +58,7 @@ public class TutorialUIManager : MonoBehaviour
         color.a = 0f;
         guideText.color = color;
 
-        float duration = 1f; 
+        float duration = 1f;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -83,4 +83,6 @@ public class TutorialUIManager : MonoBehaviour
         startBtn.SetActive(false);
         Title.SetActive(false);
     }
+    
+    
 }

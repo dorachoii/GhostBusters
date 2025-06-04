@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -51,6 +52,7 @@ public class TutorialController : MonoBehaviour
             case TutorialPhase.SuckNBlowTutorial:
                 break;
             case TutorialPhase.Done:
+                StartCoroutine(LoadNextScene());
                 break;
 
             default:
@@ -119,5 +121,9 @@ public class TutorialController : MonoBehaviour
         }
     }
 
-
+    IEnumerator LoadNextScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneLoader.Instance.LoadNextScene();
+    }
 }
