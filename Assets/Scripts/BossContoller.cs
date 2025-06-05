@@ -23,6 +23,7 @@ public class BossContoller : MonoBehaviour
     public BossState LastAttack = BossState.Attack_BigBall;
     private BossStats stats;
     private Animator animator;
+    private AudioPlayer audioPlayer;
     private BossPatrol patrol;
     private BossAttack attack;
     private BossChange change;
@@ -39,6 +40,8 @@ public class BossContoller : MonoBehaviour
         stats.OnPhaseChanged += HandlePhaseChanged;
 
         animator = GetComponent<Animator>();
+        audioPlayer = GetComponent<AudioPlayer>();
+
         patrol = GetComponent<BossPatrol>();
         attack = GetComponent<BossAttack>();
         change = GetComponent<BossChange>();
@@ -84,12 +87,13 @@ public class BossContoller : MonoBehaviour
                 patrol.Patrol(30);
                 break;
             case BossState.Change:
+                audioPlayer.Play((int)BossAudio.changed);
                 animator.SetTrigger("ChangeTrigger");
                 change.PhaseChange();
                 break;
             case BossState.Hit:
+                audioPlayer.Play((int)BossAudio.damaged);
                 animator.SetTrigger("HitTrigger");
-                // TODO: 링은 던졌을 때만 공격하도록 해야함..
                 break;
             case BossState.Attack_Prepare:
                 patrol.Stop();

@@ -26,7 +26,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        currentHP -= amount;
+        currentHP = Mathf.Max(0, currentHP - amount);
         OnHPChanged?.Invoke(currentHP);
         controller.StateMachine.TransitionTo(controller.StateMachine.hitState, true);
     }

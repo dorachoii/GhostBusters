@@ -37,6 +37,7 @@ public class IdleState : IState
     public void Enter()
     {
         player.animator.SetBool("IsMoving", false);
+        
     }
     public void Execute()
     {
@@ -83,7 +84,7 @@ public class BlowState : IState
     public void Enter()
     {
         player.animator.SetBool("IsBlowing", true);
-        //Debug.Log("Blowing Enter");
+        player.audioPlayer.Play((int)PlayerAudio.blow);
     }
     public void Execute()
     {
@@ -108,7 +109,7 @@ public class SuckState : IState
     public void Enter()
     {
         player.animator.SetBool("IsSucking", true);
-        //Debug.Log("Sucking Enter");
+        player.audioPlayer.Play((int)PlayerAudio.suck);
     }
     public void Execute()
     {
@@ -133,6 +134,7 @@ public class HitState : IState
     public void Enter()
     {
         player.GetComponentInChildren<FlickerEffectHandler>().PlayFlicker(FlickerType.Hit);
+        player.audioPlayer.Play((int)PlayerAudio.damaged);
     }
 
     public void Execute()
@@ -157,6 +159,7 @@ public class HealState : IState
     public void Enter()
     {
         player.GetComponentInChildren<FlickerEffectHandler>().PlayFlicker(FlickerType.Heal);
+        player.audioPlayer.Play((int)PlayerAudio.healed);
     }
 
     public void Execute()
@@ -216,6 +219,7 @@ public class StateMachine
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioPlayer audioPlayer;
     public Animator animator;
     private StateMachine stateMachine;
 
@@ -224,6 +228,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        audioPlayer = gameObject.GetComponent<AudioPlayer>();
         animator = gameObject.GetComponent<Animator>();
         stateMachine = new StateMachine(this);
         stateMachine.Initialize(stateMachine.idleState);
