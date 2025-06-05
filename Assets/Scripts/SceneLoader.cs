@@ -25,6 +25,7 @@ public class SceneLoader : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+        AudioManager.Instance.ChangePlaySpeed(1);
     }
     public void LoadScene(int sceneIndex)
     {
@@ -41,4 +42,3 @@ public class SceneLoader : MonoBehaviour
         }
     }
 }
-//Pitch조절하기

@@ -90,6 +90,7 @@ public class BossContoller : MonoBehaviour
                 audioPlayer.Play((int)BossAudio.changed);
                 animator.SetTrigger("ChangeTrigger");
                 change.PhaseChange();
+                AudioManager.Instance.ChangePlaySpeed(1.3f);
                 break;
             case BossState.Hit:
                 audioPlayer.Play((int)BossAudio.damaged);
