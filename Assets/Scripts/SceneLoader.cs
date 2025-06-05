@@ -13,7 +13,7 @@ public class SceneLoader : MonoBehaviour
         }
         Instance = this;
     }
-    
+
     public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -26,3 +26,4 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex);
     }
 }
+//Pitch조절하기
