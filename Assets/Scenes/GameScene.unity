@@ -4463,6 +4463,52 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5126131847639035695, guid: a107220dd1c2a61498423b2a109f68fe, type: 3}
   m_PrefabInstance: {fileID: 966652035}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &972831811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972831812}
+  - component: {fileID: 972831813}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &972831812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972831811}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -73.78569, y: 0, z: 123.03544}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &972831813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972831811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca6f848ee245034988696f3599129fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 1544314716}
+  bossStats: {fileID: 997255599}
 --- !u!1 &978645354
 GameObject:
   m_ObjectHideFlags: 0
@@ -6101,7 +6147,7 @@ Transform:
   m_GameObject: {fileID: 1293312626}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25881904, y: 0, z: 0, w: 0.9659259}
-  m_LocalPosition: {x: -27.284101, y: 5.667671, z: 46.58674}
+  m_LocalPosition: {x: -27.284101, y: 7.667671, z: 43.12264}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7358,7 +7404,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -8031,6 +8077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676800306}
   - component: {fileID: 1676800307}
+  - component: {fileID: 1676800308}
   m_Layer: 5
   m_Name: BossHPSlider
   m_TagString: Untagged
@@ -8058,7 +8105,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 0, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676800307
 MonoBehaviour:
@@ -8111,6 +8158,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1676800308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676800305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 8
 --- !u!1 &1693892792
 GameObject:
   m_ObjectHideFlags: 0
@@ -8139,7 +8200,7 @@ Transform:
   m_GameObject: {fileID: 1693892792}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25881904, y: 0, z: 0, w: 0.9659259}
-  m_LocalPosition: {x: 3.5538292, y: 2.258371, z: -5.9964104}
+  m_LocalPosition: {x: 3.5538292, y: 4.2583714, z: -9.46051}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8208,7 +8269,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 10
+  Radius: 14
   Orbits:
     Top:
       Radius: 2
@@ -8592,6 +8653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743889711}
   - component: {fileID: 1743889712}
+  - component: {fileID: 1743889713}
   m_Layer: 5
   m_Name: HP
   m_TagString: Untagged
@@ -8619,8 +8681,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130.6, y: -100}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 130.59998, y: -100}
+  m_SizeDelta: {x: 0, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743889712
 MonoBehaviour:
@@ -8648,6 +8710,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1743889713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743889710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &1793743366
 GameObject:
   m_ObjectHideFlags: 0
@@ -8913,15 +8989,15 @@ Canvas:
   m_GameObject: {fileID: 1861898708}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1293312630}
+  m_PlaneDistance: 1.5
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -9283,6 +9359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2043824055}
   - component: {fileID: 2043824056}
+  - component: {fileID: 2043824057}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -9337,6 +9414,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2043824057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043824054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &2049004708
 GameObject:
   m_ObjectHideFlags: 0
@@ -18560,3 +18651,4 @@ SceneRoots:
   - {fileID: 1733650556}
   - {fileID: 546591611}
   - {fileID: 1932746113}
+  - {fileID: 972831812}
