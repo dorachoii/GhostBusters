@@ -1,15 +1,14 @@
-// UIManager.cs
-/// <summary>
-/// ゲームのUI要素を管理し、プレイヤーのHP、コイン数、ボスのHPを更新し、ゲームオーバー状態を処理します。
-/// </summary>
-
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// ゲームのUI要素を管理し、プレイヤーのHP、コイン数、ボスのHPを更新し、ゲームオーバー状態を処理します。
+/// </summary>
+
 public class UIManager : MonoBehaviour
 {
-    // プレイヤーとボスのステータス参照
+    // Player, Boss Status 参照
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private BossStats bossStats;
 

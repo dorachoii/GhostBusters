@@ -1,16 +1,25 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// チュートリアルで使用するカメラの種類を定義します。
+/// </summary>
 public enum Cameras
 {
-    Intro,
-    PlayerFollow,
-    Item_Lobstar,
-    Item_pizzashop,
-    Outro
+    Intro,          // イントロシーン用カメラ
+    PlayerFollow,   // プレイヤー追従カメラ
+    Item_Lobstar,   // ロブスターアイテム説明用カメラ
+    Item_pizzashop, // ピザショップアイテム説明用カメラ
+    Outro           // アウトロシーン用カメラ
 }
+
+/// <summary>
+/// チュートリアル中のカメラ切り替えを管理するクラスです。
+/// Cinemachineを使用して、各フェーズに応じたカメラワークを制御します。
+/// </summary>
 public class TutorialCameraManager : MonoBehaviour
 {
+    /// 各カメラのGameObject配列
     public GameObject[] cams;
 
     [SerializeField]
@@ -26,6 +35,8 @@ public class TutorialCameraManager : MonoBehaviour
         tutorialController.onPhaseChanged -= ChangeCamera;
     }
 
+
+    /// チュートリアルのフェーズに応じてカメラを切り替えます。
     public void ChangeCamera(TutorialPhase phase)
     {
         switch (phase)
@@ -41,6 +52,7 @@ public class TutorialCameraManager : MonoBehaviour
         }
     }
 
+    /// 指定されたカメラを2秒間表示した後、プレイヤー追従カメラに切り替えます。
     IEnumerator TurnOffCamera(int idx)
     {
         cams[idx].SetActive(true);
@@ -49,6 +61,7 @@ public class TutorialCameraManager : MonoBehaviour
         cams[(int)Cameras.PlayerFollow].SetActive(true);
     }
 
+    /// すべてのカメラを非アクティブにします。
     void TurnOffAllCameras()
     {
         foreach (var cam in cams)
@@ -56,5 +69,4 @@ public class TutorialCameraManager : MonoBehaviour
             cam.SetActive(false);
         }
     }
-
 }

@@ -3,19 +3,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// プレイヤーのステータス（HP、コイン数など）を管理し、変更時にイベントを発行します。
+/// </summary>
 public class PlayerStats : MonoBehaviour
 {
+    // Player Status
     public int maxHP = 100;
     public int currentHP;
     public int maxItem = 5;
     public int currentItem;
 
+    // Events
     public event Action<int> OnHPChanged;
     public event Action<int> OnCoinChanged;
 
+    // Player Controller Reference
     PlayerController controller;
 
-    private void Awake()
+    private void Start()
     {
         currentHP = maxHP;
         currentItem = 0;
@@ -51,6 +57,7 @@ public class PlayerStats : MonoBehaviour
         OnCoinChanged?.Invoke(currentItem);
     }
 
+    // Get Current HP
     public int GetHP() => currentHP;
 }
 

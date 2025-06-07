@@ -9,28 +9,36 @@ public enum BossPhase
     Phase3
 }
 
+/// <summary>
+/// ボスのステータス（HPなど）を管理し、変更時にイベントを発行します。
+/// </summary>
+
 public class BossStats : MonoBehaviour
 {
-    public int maxHP = 30;
+    // Boss Status
+    public int maxHP = 100;
     public int currentHP;
     public BossPhase currentPhase = BossPhase.Phase1;
 
+    // Events
     public event Action<int> OnHPChanged;
     public event Action<BossPhase> OnPhaseChanged;
 
     BossContoller controller;
 
-    void Awake()
+    private void Start()
     {
+        // Initialize HP
         currentHP = maxHP;
         OnHPChanged?.Invoke(currentHP);
         controller = gameObject.GetComponent<BossContoller>();
-
     }
+
+    // Get Current HP
+    public int GetHP() => currentHP;
 
     public void TakeDamage(int amount)
     {
-
         currentHP = Mathf.Max(currentHP - amount, 0);
         OnHPChanged?.Invoke(currentHP);
         Debug.Log($"currentBossHP: {currentHP}");
@@ -49,11 +57,9 @@ public class BossStats : MonoBehaviour
 
     private void ChangePhase(BossPhase newPhase)
     {
-
         if (currentPhase == newPhase) return;
 
         currentPhase = newPhase;
         OnPhaseChanged?.Invoke(currentPhase);
-        Debug.Log($"currentBossHP: currentPhase{currentPhase}");
     }
 }

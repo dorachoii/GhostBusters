@@ -1,6 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// ゲームのオーディオを管理するマネージャークラスです。
+/// UIサウンドとBGMを制御します。
+/// </summary>
+
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
@@ -8,7 +14,6 @@ public class AudioManager : MonoBehaviour
     private AudioSource bgAudioSource;
     public AudioClip[] clips;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         if (Instance != null)
@@ -51,5 +56,4 @@ public class AudioManager : MonoBehaviour
 
         bgAudioSource.pitch = targetSpeed;
     }
-
 }

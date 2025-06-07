@@ -3,24 +3,32 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// ボスの状態管理と行動制御を行い、各フェーズに応じた攻撃パターンを実行します。
+/// </summary>
+
+// ボスの状態を定義する列挙型
 public enum BossState
 {
-    Idle,
-    Patrol,
-    FastPatrol,
-    Change,
-    Attack_Prepare,
-    Attack_BigBall,
-    Attack_3Balls,
-    Attack_Spin,
-    Hit,
-    Die
+    Idle,           // 待機状態
+    Patrol,         // 通常パトロール
+    FastPatrol,     // 高速パトロール
+    Change,         // フェーズ変更
+    Attack_Prepare, // 攻撃準備
+    Attack_BigBall, // 大きい岩攻撃
+    Attack_3Balls,  // 3つの小さい岩攻撃
+    Attack_Spin,    // 回転攻撃
+    Hit,           // 被ダメージ
+    Die            // 死亡
 }
 
 public class BossContoller : MonoBehaviour
 {
+    // 現在の状態と最後の攻撃
     public BossState currentState = BossState.Idle;
     public BossState LastAttack = BossState.Attack_BigBall;
+
+    // ボスのコンポーネント
     private BossStats stats;
     private Animator animator;
     private AudioPlayer audioPlayer;
@@ -28,29 +36,25 @@ public class BossContoller : MonoBehaviour
     private BossAttack attack;
     private BossChange change;
 
-    float idleTimer = 0f;
+    // 待機時間計測用
+    private float idleTimer = 0f;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        Debug.Log($"currentState: first {currentState}");
-
+        // コンポーネントの取得とイベントの購読
         stats = GetComponent<BossStats>();
         stats.OnPhaseChanged += HandlePhaseChanged;
 
         animator = GetComponent<Animator>();
         audioPlayer = GetComponent<AudioPlayer>();
-
         patrol = GetComponent<BossPatrol>();
         attack = GetComponent<BossAttack>();
         change = GetComponent<BossChange>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-    
+        // 現在の状態に応じた処理
         switch (currentState)
         {
             case BossState.Idle:
@@ -58,18 +62,16 @@ public class BossContoller : MonoBehaviour
                 break;
             case BossState.Patrol:
             case BossState.FastPatrol:
-                // TODO: Player가 감지되어야만 탈출하는 구조
                 DetectPlayer();
                 break;
         }
     }
 
+    // 状態を変更し、対応する処理を実行
     public void ChangeState(BossState s)
     {
         if (currentState == s) return;
         currentState = s;
-
-        Debug.Log($"currentState: - ChangeState {currentState}");
 
         switch (currentState)
         {
@@ -117,12 +119,10 @@ public class BossContoller : MonoBehaviour
             case BossState.Die:
                 animator.SetTrigger("DeathTrigger");
                 break;
-            default:
-                break;
         }
     }
 
-    // TODO: 여기도 고쳐야함
+    // 攻撃準備後の次の攻撃を決定
     public void DecideAttackAfterPrepare()
     {
         switch (stats.currentPhase)
@@ -155,7 +155,8 @@ public class BossContoller : MonoBehaviour
         }
     }
 
-    void HandlePhaseChanged(BossPhase newPhase)
+    // フェーズ変更時の処理
+    private void HandlePhaseChanged(BossPhase newPhase)
     {
         if (newPhase == BossPhase.Phase3)
         {
@@ -163,7 +164,8 @@ public class BossContoller : MonoBehaviour
         }
     }
 
-    void HandleIdle()
+    // 待機状態の処理
+    private void HandleIdle()
     {
         idleTimer += Time.deltaTime;
 
@@ -171,21 +173,22 @@ public class BossContoller : MonoBehaviour
 
         if (idleTimer >= waitTime)
         {
-            Debug.Log($"currentState: idleTimerReset {idleTimer}");
             idleTimer = 0f;
 
-            if (stats.currentPhase == BossPhase.Phase3) ChangeState(BossState.FastPatrol);
-            else ChangeState(BossState.Patrol);
+            if (stats.currentPhase == BossPhase.Phase3) 
+                ChangeState(BossState.FastPatrol);
+            else 
+                ChangeState(BossState.Patrol);
         }
     }
 
-    void DetectPlayer()
+    // プレイヤーの検出
+    private void DetectPlayer()
     {
         float dist = Vector3.Distance(patrol.player.position, transform.position);
         
         if (dist < 10f)
         {
-            Debug.Log($"currentState: detectPlayer {dist}");
             ChangeState(BossState.Attack_Prepare);
         }
     }

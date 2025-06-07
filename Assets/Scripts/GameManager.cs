@@ -1,13 +1,21 @@
 using UnityEngine;
 using System;
 
+/// <summary>
+/// ゲームの状態を管理し、プレイヤーとボスのHPを監視してゲームオーバー状態を制御します。
+/// </summary>
+
 public class GameManager : MonoBehaviour
 {
+    // Singleton
     public static GameManager Instance { get; private set; }
+
+     // Player, Boss Status 参照
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private BossStats bossStats;
     
-    public event Action<string> OnGameOver;  // 게임오버 이벤트
+    // event
+    public event Action<string> OnGameOver;  
 
     private void Awake()
     {
@@ -17,10 +25,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // eventの購読
         playerStats.OnHPChanged += CheckPlayerGameOver;
         bossStats.OnHPChanged += CheckBossGameOver;
     }
 
+    // PlayerHP Check
     private void CheckPlayerGameOver(int newHP)
     {
         if (newHP <= 0)
@@ -29,6 +39,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // BossHP Check
     private void CheckBossGameOver(int newHP)
     {
         if (newHP <= 0)
@@ -44,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        // eventの購読解除
         playerStats.OnHPChanged -= CheckPlayerGameOver;
         bossStats.OnHPChanged -= CheckBossGameOver;
     }
