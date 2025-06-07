@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+/// <summary>
+/// シーン遷移時のフェード効果を管理するクラスです。
+/// </summary>
+
 public class SceneTransition : MonoBehaviour
 {
     public Image fadeImage;
@@ -10,8 +14,10 @@ public class SceneTransition : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        fadeImage.color = new Color(0, 0, 0, 1); // 완전 검정
-        StartCoroutine(FadeIn()); // 씬이 로드되면 자동으로 fade-in
+        fadeImage.color = new Color(0, 0, 0, 1);
+
+        // シーンがロードされると自動的にFadeIn
+        StartCoroutine(FadeIn()); 
     }
 
     public void PlayFadeOut(System.Action onComplete)

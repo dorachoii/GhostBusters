@@ -9,22 +9,22 @@ using SBS.ME;
  
 public class PlayerAttack : MonoBehaviour
 {
-    // コンポーネント参照
-    private PlayerController controller;  // プレイヤーの制御
-    private PlayerStats stats;           // プレイヤーのステータス
+    // playerコンポーネント参照
+    private PlayerController controller;  
+    private PlayerStats stats;           
 
-    // 入力設定
-    [SerializeField] private InputAction attackInput;  // 攻撃入力
+    // 入力
+    [SerializeField] private InputAction attackInput;  
 
     // 吸い込み/吹き飛ばしの設定
-    private const float SuckRange = 8f;    // 効果範囲
-    private const float SuckPower = 5f;    // 吸い込み/吹き飛ばしの力
-    private const float SuckAngle = 60f;   // 効果角度
+    private const float SuckRange = 8f;    
+    private const float SuckPower = 5f;    
+    private const float SuckAngle = 60f;   
 
-    // エフェクト関連
-    public Transform hand;                 // エフェクトの生成位置
-    public GameObject[] FX;                // エフェクトのプレハブ
-    private bool isFXInstantiated = false; // エフェクトが生成済みかどうか
+    // effect関連
+    public Transform hand;                 // effectの生成位置
+    public GameObject[] FX;                // effecctのプレハブ
+    private bool isFXInstantiated = false; // effectが生成済みcheckプレグ
 
     private void OnEnable()
     {
@@ -37,14 +37,14 @@ public class PlayerAttack : MonoBehaviour
         stats = GetComponent<PlayerStats>();
     }
 
-    /// 物理演算を使用するため、FixedUpdateで処理を行います。
-    /// これにより、物理演算の安定性と一貫性が保たれます。
+    /// FixedUpdateを使用することで、安定した物理演算を実現します。
     private void FixedUpdate()
     {
         Attack();
     }
 
     /// 入力に応じて吸い込み/吹き飛ばしを実行します。
+    /// Q:-1, W: 1
     private void Attack()
     {
         float direction = attackInput.ReadValue<float>();
@@ -78,7 +78,7 @@ public class PlayerAttack : MonoBehaviour
         OnFX(1);
     }
 
-    /// 指定されたエフェクトを生成します。
+    /// 指定されたeffectを生成
     private void OnFX(int idx)
     {
         if (!isFXInstantiated)
@@ -95,7 +95,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// 生成されたエフェクトを削除します。
+    /// 生成されたeffectを削除
     private void OffFX()
     {
         foreach (Transform child in hand)
@@ -105,10 +105,10 @@ public class PlayerAttack : MonoBehaviour
         isFXInstantiated = false;
     }
 
-    /// 指定された方向に物理的な力を適用します。
+    /// 指定された方向に力を適用
     private void ApplyVacuum(float direction)
     {
-        // 効果範囲内のオブジェクトを検出
+        // 効果範囲内のobjectsを検出
         Collider[] targets = Physics.OverlapSphere(transform.position, SuckRange, LayerMask.GetMask("Item", "BossRock"));
         
         Vector3 forward = transform.forward;
@@ -116,7 +116,8 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (var target in targets)
         {
-            if (target.attachedRigidbody != null)
+            Rigidbody targetRigidbody = target.attachedRigidbody;
+            if (targetRigidbody != null)
             {
                 Vector3 dir = (transform.position - target.transform.position).normalized;
                 float angle = Vector3.Angle(forward, dir);
@@ -125,29 +126,29 @@ public class PlayerAttack : MonoBehaviour
                 // 十分に近づいた場合、アイテムを収納
                 if (distance < 0.7f)
                 {
-                    if (!target.attachedRigidbody.isKinematic)
+                    if (!targetRigidbody.isKinematic)
                     {
                         StoreItem(target);
                     }
                     continue;
                 }
 
-                // 視野角外のオブジェクトは無視
+                // 視野角外のobjectsは無視
                 if (angle < halfFOV) continue;
 
                 // 距離に応じて力を減衰
-                float power = Mathf.Lerp(SuckPower, 0, distance / SuckRange);
+                float suckPower = Mathf.Lerp(SuckPower, 0, distance / SuckRange);
 
-                // ボスの岩の場合は特別な処理
+                // BigBallの場合：方向固定
                 if (target.gameObject.layer == LayerMask.NameToLayer("BossRock") && target.gameObject.CompareTag("BigBall"))
                 {
                     dir = target.gameObject.GetComponent<BossRock>().dir;
                 }
 
-                // 物理的な力を適用
-                target.attachedRigidbody.AddForce(direction * dir * power, ForceMode.Impulse);
+                // 力を適用
+                targetRigidbody.AddForce(direction * dir * suckPower, ForceMode.Impulse);
 
-                // 建物の場合は爆発処理
+                // 建物の場合：爆発処理
                 if (target.gameObject.layer == LayerMask.NameToLayer("Item") && target.gameObject.CompareTag("Building"))
                 {
                     target.GetComponent<MeshExploder>().enabled = true;
@@ -164,7 +165,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (target.gameObject.CompareTag("Ring"))
         {
-            if (transform.GetChild(1).childCount > stats.maxItem) return;
+            if (transform.GetChild(1).childCount > stats.maxRingCount) return;
             target.attachedRigidbody.isKinematic = true;
             target.transform.SetParent(transform.GetChild(1), true);
             stats.GainItem();
@@ -175,20 +176,18 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// 収納したアイテムを放出します。
+    /// 収納したアイテムを放出
     private void ReleaseItems()
     {
         Transform pocket = transform.GetChild(1);
         Vector3 forward = transform.forward;
 
-        // 放出するアイテムのリストを作成
         List<Transform> itemsToRelease = new List<Transform>();
         foreach (Transform child in pocket)
         {
             itemsToRelease.Add(child);
         }
 
-        // アイテムを放出
         foreach (Transform child in itemsToRelease)
         {
             Rigidbody rb = child.GetComponent<Rigidbody>();
@@ -204,7 +203,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
 
-    /// エディタ上で効果範囲と視野角を可視化します。
+    /// エディタ上で効果範囲と視野角を可視化
     private void OnDrawGizmosSelected()
     {
         // 効果範囲の表示

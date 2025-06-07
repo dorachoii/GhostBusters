@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
     // プレイヤーのコインテキストを更新
     private void UpdateCoinUI(int newItem)
     {
-        coinText.text = $"{newItem.ToString()} / {playerStats.maxItem}";
+        coinText.text = $"{newItem.ToString()} / {playerStats.maxRingCount}";
     }
 
     // ボスのHPスライダーを更新

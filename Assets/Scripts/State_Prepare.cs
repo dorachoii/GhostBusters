@@ -1,9 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// アニメーション状態が終了したときに呼び出されるスクリプトです。
-/// 準備動作が終わった後、次の攻撃パターンを選択して実行する役割をします。
+/// Animation状態が終了したときに呼び出されるスクリプトです。
+/// LookState -> AttackState
 /// </summary>
+
 public class State_Prepare : StateMachineBehaviour
 {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

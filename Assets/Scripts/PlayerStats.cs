@@ -4,32 +4,33 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// プレイヤーのステータス（HP、コイン数など）を管理し、変更時にイベントを発行します。
+/// player statusを管理し、変更時にイベントを発行します。
 /// </summary>
 public class PlayerStats : MonoBehaviour
 {
     // Player Status
     public int maxHP = 100;
     public int currentHP;
-    public int maxItem = 5;
-    public int currentItem;
+    public int maxRingCount = 5;
+    public int currentRingCount;
 
     // Events
     public event Action<int> OnHPChanged;
     public event Action<int> OnCoinChanged;
 
-    // Player Controller Reference
+    // Player Controller 参照
     PlayerController controller;
 
     private void Start()
     {
         currentHP = maxHP;
-        currentItem = 0;
+        currentRingCount = 0;
         OnHPChanged?.Invoke(currentHP);
-        OnCoinChanged?.Invoke(currentItem);
+        OnCoinChanged?.Invoke(currentRingCount);
         controller = gameObject.GetComponent<PlayerController>();
     }
 
+    /// Player HP減少、イベント発行
     public void TakeDamage(int amount)
     {
         currentHP = Mathf.Max(0, currentHP - amount);
@@ -37,6 +38,7 @@ public class PlayerStats : MonoBehaviour
         controller.StateMachine.TransitionTo(controller.StateMachine.hitState, true);
     }
 
+    /// Player HP回復、event発行
     public void Heal(int amount)
     {
         currentHP += amount;
@@ -44,20 +46,18 @@ public class PlayerStats : MonoBehaviour
         controller.StateMachine.TransitionTo(controller.StateMachine.healState, true);
     }
 
+    /// Player item数を増やし、eventを発行
     public void GainItem()
     {
-        currentItem++;
-        OnCoinChanged?.Invoke(currentItem);
+        currentRingCount++;
+        OnCoinChanged?.Invoke(currentRingCount);
     }
 
-    
+    /// Player item数を減らし、eventを発行
     public void LoseItem()
     {
-        currentItem--;
-        OnCoinChanged?.Invoke(currentItem);
+        currentRingCount--;
+        OnCoinChanged?.Invoke(currentRingCount);
     }
-
-    // Get Current HP
-    public int GetHP() => currentHP;
 }
 
