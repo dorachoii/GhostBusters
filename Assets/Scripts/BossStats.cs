@@ -10,7 +10,7 @@ public enum BossPhase
 }
 
 /// <summary>
-/// ボスのステータス（HPなど）を管理し、変更時にイベントを発行します。
+/// boss statusを管理し、変更時にイベントを発行します。
 /// </summary>
 
 public class BossStats : MonoBehaviour
@@ -28,20 +28,17 @@ public class BossStats : MonoBehaviour
 
     private void Start()
     {
-        // Initialize HP
         currentHP = maxHP;
         OnHPChanged?.Invoke(currentHP);
         controller = gameObject.GetComponent<BossContoller>();
     }
 
-    // Get Current HP
     public int GetHP() => currentHP;
 
     public void TakeDamage(int amount)
     {
         currentHP = Mathf.Max(currentHP - amount, 0);
         OnHPChanged?.Invoke(currentHP);
-        Debug.Log($"currentBossHP: {currentHP}");
 
         if (currentHP <= 0)
         {
@@ -51,6 +48,7 @@ public class BossStats : MonoBehaviour
 
         controller.ChangeState(BossState.Hit);
 
+        //10以下になったら、Phase変更
         if (currentHP <= 10) ChangePhase(BossPhase.Phase3);
         else if (currentHP <= 20) ChangePhase(BossPhase.Phase2);
     }

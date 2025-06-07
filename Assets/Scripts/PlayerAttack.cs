@@ -5,8 +5,8 @@ using SBS.ME;
 
 /// <summary>
 /// プレイヤーの攻撃（吸い込み/吹き飛ばし）機能を制御します。
-/// 物理演算を使用するため、FixedUpdateで処理を行います。
 /// </summary>
+ 
 public class PlayerAttack : MonoBehaviour
 {
     // コンポーネント参照
@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerStats stats;           // プレイヤーのステータス
 
     // 入力設定
-    [SerializeField] private InputAction attack;  // 攻撃入力
+    [SerializeField] private InputAction attackInput;  // 攻撃入力
 
     // 吸い込み/吹き飛ばしの設定
     private const float SuckRange = 8f;    // 効果範囲
@@ -28,33 +28,27 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnEnable()
     {
-        attack.Enable();
+        attackInput.Enable();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        // 必要なコンポーネントを取得
         controller = GetComponent<PlayerController>();
         stats = GetComponent<PlayerStats>();
     }
 
-    /// <summary>
     /// 物理演算を使用するため、FixedUpdateで処理を行います。
     /// これにより、物理演算の安定性と一貫性が保たれます。
-    /// </summary>
     private void FixedUpdate()
     {
         Attack();
     }
 
-    /// <summary>
     /// 入力に応じて吸い込み/吹き飛ばしを実行します。
-    /// </summary>
     private void Attack()
     {
-        float direction = attack.ReadValue<float>();
-        if (attack.IsPressed())
+        float direction = attackInput.ReadValue<float>();
+        if (attackInput.IsPressed())
         {
             if (direction < 0) Suck();
             else Blow();
@@ -66,9 +60,8 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// アイテムを吸い込む処理を実行します。
-    /// </summary>
+
+    /// 攻撃１：吸い込み
     private void Suck()
     {
         controller.StateMachine.TransitionTo(controller.StateMachine.suckState);
@@ -76,9 +69,7 @@ public class PlayerAttack : MonoBehaviour
         OnFX(0);
     }
 
-    /// <summary>
-    /// アイテムを吹き飛ばす処理を実行します。
-    /// </summary>
+    /// 攻撃２：吹き飛ばし
     private void Blow()
     {
         controller.StateMachine.TransitionTo(controller.StateMachine.blowState);
@@ -87,9 +78,7 @@ public class PlayerAttack : MonoBehaviour
         OnFX(1);
     }
 
-    /// <summary>
     /// 指定されたエフェクトを生成します。
-    /// </summary>
     private void OnFX(int idx)
     {
         if (!isFXInstantiated)
@@ -106,9 +95,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 生成されたエフェクトを削除します。
-    /// </summary>
     private void OffFX()
     {
         foreach (Transform child in hand)
@@ -118,9 +105,7 @@ public class PlayerAttack : MonoBehaviour
         isFXInstantiated = false;
     }
 
-    /// <summary>
     /// 指定された方向に物理的な力を適用します。
-    /// </summary>
     private void ApplyVacuum(float direction)
     {
         // 効果範囲内のオブジェクトを検出
@@ -172,16 +157,13 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// アイテムを収納します。
-    /// </summary>
+    /// アイテムを収納
     private void StoreItem(Collider target)
     {
         target.attachedRigidbody.linearVelocity = Vector3.zero;
 
         if (target.gameObject.CompareTag("Ring"))
         {
-            // リングの場合は所持数制限をチェック
             if (transform.GetChild(1).childCount > stats.maxItem) return;
             target.attachedRigidbody.isKinematic = true;
             target.transform.SetParent(transform.GetChild(1), true);
@@ -189,14 +171,11 @@ public class PlayerAttack : MonoBehaviour
         }
         else if (target.gameObject.CompareTag("Heart"))
         {
-            // 回復アイテムの場合は即座に効果を適用
             target.gameObject.GetComponent<HealItem>().Heal(stats);
         }
     }
 
-    /// <summary>
     /// 収納したアイテムを放出します。
-    /// </summary>
     private void ReleaseItems()
     {
         Transform pocket = transform.GetChild(1);
@@ -224,9 +203,8 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    /// <summary>
+
     /// エディタ上で効果範囲と視野角を可視化します。
-    /// </summary>
     private void OnDrawGizmosSelected()
     {
         // 効果範囲の表示

@@ -3,8 +3,12 @@ using System;
 using System.Collections;
 
 /// <summary>
-/// ボスの攻撃パターン（小さい岩、大きい岩、回転攻撃など）を管理し、実行するコンポーネントです。
+/// ボスの攻撃パターンを管理、実行するコンポーネントです。
+/// 攻撃１：Small Ball 
+/// 攻撃２：spin & fire 
+/// 攻撃３：bigball 
 /// </summary>
+
 public class BossAttack : MonoBehaviour
 {
     // 攻撃パラメータ
@@ -15,9 +19,8 @@ public class BossAttack : MonoBehaviour
     private const float SpinRockSpeed = 30f;
     private const float SmoothRotationSpeed = 5f;
 
-    // 攻撃用の岩のプレハブ
+    // 攻撃プレハブ
     public GameObject[] bossRocks;
-    // 攻撃時のエフェクト
     public GameObject bossBreathFX;
 
     // 攻撃発射位置
@@ -28,26 +31,24 @@ public class BossAttack : MonoBehaviour
 
     private void OnEnable()
     {
-        // 大きい岩のヒットイベントを購読
-        BossRock.OnBigBallHit += HandleBigBallHit;
+        BossRock.OnBigRockHit += HandleBigBallHit;
     }
 
     private void OnDisable()
     {
-        // イベントの購読解除
-        BossRock.OnBigBallHit -= HandleBigBallHit;
+        BossRock.OnBigRockHit -= HandleBigBallHit;
     }
 
-    // 大きい岩のヒット時の処理
+    // BigBallHitの場合非表示
     private void HandleBigBallHit(RockType rockType)
     {
-        if (rockType == RockType.BigBall)
+        if (rockType == RockType.BigRock)
         {
             SetBreathActive(false);
         }
     }
 
-    // 小さい岩を複数発射する攻撃
+    // 攻撃１：Small Ball
     public void Attack_SmallBalls(Transform target, int cnt,
         float delay = SmallRockDelay,
         int angleStep = SmallRockAngleStep)
@@ -56,14 +57,12 @@ public class BossAttack : MonoBehaviour
         StartCoroutine(IFireNShot(target, cnt, delay, angleStep));
     }
 
-    // 小さい岩を1発発射
     void FireSmallBall(Vector3 dir, float rockSpeed = SmallRockSpeed)
     {
         GameObject rock = Instantiate(bossRocks[0], firePos.position, Quaternion.identity);
         rock.GetComponent<Rigidbody>().linearVelocity = dir * rockSpeed;
     }
 
-    // 複数の小さい岩を順番に発射するコルーチン
     IEnumerator IFireNShot(Transform target, int cnt, float delay, int angleStep)
     {
         isAttacking = true;
@@ -83,13 +82,12 @@ public class BossAttack : MonoBehaviour
         isAttacking = false;
     }
 
-    // 回転しながら攻撃する
+    // 攻撃２：spin & fire
     public void Attack_Spin(int spinCount = 1, int bulletCount = 12, float duration = 3)
     {
         StartCoroutine(SpinAndFire(spinCount, bulletCount, duration));
     }
 
-    // 回転攻撃のコルーチン
     IEnumerator SpinAndFire(int spinCount, int bulletCount, float duration)
     {
         isAttacking = true;
@@ -117,7 +115,7 @@ public class BossAttack : MonoBehaviour
         isAttacking = false;
     }
 
-    // 大きい岩を発射する攻撃
+    // 攻撃3：bigball
     public void Attack_BigBalls(Transform target)
     {
         GameObject rock = Instantiate(bossRocks[1], bigBallPos.position + bigBallPos.forward * 1.3f, Quaternion.identity);
@@ -128,19 +126,19 @@ public class BossAttack : MonoBehaviour
         rock.GetComponent<Rigidbody>().AddForce(dir * BigRockBlowPower, ForceMode.Impulse);
     }
 
-    // 攻撃エフェクトの表示/非表示
+    // 以外１：攻撃エフェクトの表示/非表示切り替え
     public void SetBreathActive(bool active)
     {
         bossBreathFX.SetActive(active);
     }
 
-    // ターゲットを滑らかに見る
+
+    /// ターゲットを滑らかに見る処理を開始します
     public void StartSmoothLookAt(Transform target)
     {
         StartCoroutine(SmoothLookAtCoroutine(target));
     }
 
-    // 滑らかにターゲットを見るコルーチン
     IEnumerator SmoothLookAtCoroutine(Transform target)
     {
         while (true)

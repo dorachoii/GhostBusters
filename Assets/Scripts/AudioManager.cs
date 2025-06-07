@@ -2,10 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// ゲームのオーディオを管理するマネージャークラスです。
+/// audioを管理するマネージャークラスです。
 /// UIサウンドとBGMを制御します。
 /// </summary>
-
 
 public class AudioManager : MonoBehaviour
 {

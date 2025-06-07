@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// ゲームの状態を管理し、プレイヤーとボスのHPを監視してゲームオーバー状態を制御します。
+/// playerとbossのHPを監視してゲームオーバー状態を制御します。
 /// </summary>
 
 public class GameManager : MonoBehaviour

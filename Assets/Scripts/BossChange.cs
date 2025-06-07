@@ -2,8 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// ボスのフェーズ3への変身時にマテリアルを変更し、ランダムな色変化のエフェクトを制御します。
+/// bossPhase3への変身のエフェクトを制御します。
 /// </summary>
+
 public class BossChange : MonoBehaviour
 {
     // マテリアル変更用のコンポーネント
@@ -19,7 +20,6 @@ public class BossChange : MonoBehaviour
 
     private void Awake()
     {
-        // コンポーネントの取得とマテリアル数の初期化
         steve = GetComponent<steve>();
         maxBodyMat = steve.my_body_materials.Length;
         maxEyeMat = steve.eye_cover_mat.Length;
@@ -31,10 +31,9 @@ public class BossChange : MonoBehaviour
         StartCoroutine(RandomColorChange());
     }
 
-    // ランダムな色変化のエフェクト
+    // ランダムな色変化
     private IEnumerator RandomColorChange()
     {
-        // エフェクトのパラメータ
         const float Duration = 1.2f;
         const float Interval = 0.2f;
         float elapsed = 0f;
@@ -50,7 +49,6 @@ public class BossChange : MonoBehaviour
             yield return new WaitForSeconds(Interval);
         }
 
-        // 最終的なマテリアルに設定
         steve.Body_Materials = FinalBodyMat;
         steve.L_Eye_Cover_Color = FinalLEye;
         steve.R_Eye_Cover_Color = FinalREye;

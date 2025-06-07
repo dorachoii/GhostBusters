@@ -4,23 +4,23 @@ using UnityEngine.Events;
 using UnityEngine;
 
 /// <summary>
-/// ボスが攻撃時に使用する岩のオブジェクトを管理し、プレイヤーやボスへのダメージを処理します。
+/// ボスの攻撃用の岩を制御するコンポーネントです。
+/// 岩の種類に応じて異なる動作をします。
 /// </summary>
 
-// 岩の種類を定義する列挙型
 public enum RockType
 {
-    SmallBall, // 小さい岩
-    BigBall,   // 大きい岩
-    Ring       // リング状の岩
+    SmallRock, 
+    BigRock,  
+    Ring      
 }
 
 // 岩のプロパティを定義する構造体
 public struct RockProperties
 {
-    public int damageToPlayer; // プレイヤーへのダメージ
-    public int damageToBoss;   // ボスへのダメージ
-    public float lifeTime;     // 生存時間
+    public int damageToPlayer;
+    public int damageToBoss;   
+    public float lifeTime;    
 
     public RockProperties(int toPlayer, int toBoss, float life)
     {
@@ -33,52 +33,51 @@ public struct RockProperties
 public class BossRock : MonoBehaviour
 {
     // ダメージ定数
-    private const int SmallBallDamageToPlayer = 20;
-    private const int BigBallDamageToPlayer = 30;
-    private const int BigBallDamageToBoss = 10;
+    private const int SmallRockDamageToPlayer = 20;
+    private const int BigRockDamageToPlayer = 30;
+    private const int BigRockDamageToBoss = 10;
     private const int RingDamageToBoss = 2;
 
     // 生存時間定数
-    private const float SmallBallLifeTime = 15f;
-    private const float BigBallLifeTime = 10f;
+    private const float SmallRockLifeTime = 15f;
+    private const float BigRockLifeTime = 10f;
     private const float RingLifeTime = 30f;
 
-    public RockType rockType; // 岩の種類
-    private bool hasHit = false; // 衝突済みかどうか
-    public static event Action<RockType> OnBigBallHit; // 大きい岩が衝突した時のイベント
+    public RockType rockType; 
+    private bool hasHit = false; 
+    // big rock 衝突時のイベント
+    public static event Action<RockType> OnBigRockHit; 
 
-    // 岩の種類ごとのプロパティを定義
+    // rockごとのプロパティを定義
     private static readonly Dictionary<RockType, RockProperties> rockDic = new Dictionary<RockType, RockProperties>
     {
-        {RockType.SmallBall, new RockProperties(toPlayer: SmallBallDamageToPlayer, toBoss: 0, life: SmallBallLifeTime)},
-        {RockType.BigBall, new RockProperties(toPlayer: BigBallDamageToPlayer, toBoss: BigBallDamageToBoss, life: BigBallLifeTime)},
+        {RockType.SmallRock, new RockProperties(toPlayer: SmallRockDamageToPlayer, toBoss: 0, life: SmallRockLifeTime)},
+        {RockType.BigRock, new RockProperties(toPlayer: BigRockDamageToPlayer, toBoss: BigRockDamageToBoss, life: BigRockLifeTime)},
         {RockType.Ring, new RockProperties(toPlayer: 0, toBoss: RingDamageToBoss, life: RingLifeTime)},
     };
 
-    private float lifeTime = 15f; // 生存時間
-    private GameObject boss; // ボスのゲームオブジェクト
-    private Transform playerTransform; // プレイヤーのTransform
-    private Transform bossTransform; // ボスのTransform
-    private Rigidbody rb; // Rigidbodyコンポーネント
+    private float lifeTime = 15f; 
+    private GameObject boss; 
+    private Transform playerTransform; 
+    private Transform bossTransform; 
+    private Rigidbody rb; 
 
-    public Vector3 dir; // 移動方向
+    public Vector3 dir; 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     private void Awake()
     {
-        // 岩の生存時間を設定し、Rigidbodyを取得
         DestroySelf(rockDic[rockType].lifeTime);
         rb = GetComponent<Rigidbody>();
 
-        // ボスとプレイヤーのTransformを取得
         bossTransform = GameObject.FindWithTag("Boss").transform;
         playerTransform = GameObject.FindWithTag("Player").transform;
+        // 生成時のボスとプレイヤー間の方向を計算し、その方向に移動するように設定
         dir = (playerTransform.position - bossTransform.transform.position).normalized;
     }
 
     private void Start()
     {
-        // ボスのゲームオブジェクトを取得
         boss = GameObject.FindWithTag("Boss");
     }
 
@@ -86,7 +85,7 @@ public class BossRock : MonoBehaviour
     {
         if (hasHit) return;
 
-        // プレイヤーとの衝突処理
+        // Playerとの衝突処理
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
@@ -99,7 +98,7 @@ public class BossRock : MonoBehaviour
             DestroySelf();
         }
 
-        // ボスとの衝突処理
+        // Bossとの衝突処理
         if (collision.gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
             BossStats boss = collision.gameObject.GetComponent<BossStats>();
@@ -113,14 +112,14 @@ public class BossRock : MonoBehaviour
         }
     }
 
-    // 自身を破壊する
+    // 自身破壊
     private void DestroySelf(float lifeTime = 0)
     {
         switch (rockType)
         {
-            case RockType.SmallBall: break;
-            case RockType.BigBall:
-                OnBigBallHit?.Invoke(rockType);
+            case RockType.SmallRock: break;
+            case RockType.BigRock:
+                OnBigRockHit?.Invoke(rockType);
                 break;
             case RockType.Ring: break;
         }
