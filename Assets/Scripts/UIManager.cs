@@ -3,7 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 
 /// <summary>
-/// ゲームのUI要素を管理し、プレイヤーのHP、コイン数、ボスのHPを更新し、ゲームオーバー状態を処理します。
+/// ゲームのUI要素を管理します。
+/// Observerパターンを活用し、eventsベースの通信でUIを更新します。
 /// </summary>
 
 public class UIManager : MonoBehaviour
@@ -12,50 +13,50 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private BossStats bossStats;
 
-    public TextMeshProUGUI playerHPText;    // プレイヤーのHP表示
-    public TextMeshProUGUI coinText;        // コイン数表示
-    public Slider bossHP;                   // ボスのHP表示
-    public GameObject gameOverCanvas;        // ゲームオーバー画面
-    public TextMeshProUGUI gameOverText;    // ゲームオーバーメッセージ
+    public TextMeshProUGUI playerHPText;    
+    public TextMeshProUGUI coinText;        
+    public Slider bossHP;                  
+    public GameObject gameOverCanvas;       
+    public TextMeshProUGUI gameOverText;    
 
-    // イベントの購読設定
+    // eventの購読設定
     private void OnEnable()
     {
         playerStats.OnHPChanged += UpdateHPUI;
-        playerStats.OnCoinChanged += UpdateCoinUI;
+        playerStats.OnRingChanged += UpdateRingUI;
         bossStats.OnHPChanged += UpdateBossHPSlider;
         GameManager.Instance.OnGameOver += ShowGameOver;
     }
 
-    // イベントの購読解除
+    // eventの購読解除
     private void OnDisable()
     {
         playerStats.OnHPChanged -= UpdateHPUI;
-        playerStats.OnCoinChanged -= UpdateCoinUI;
+        playerStats.OnRingChanged -= UpdateRingUI;
         bossStats.OnHPChanged -= UpdateBossHPSlider;
         GameManager.Instance.OnGameOver -= ShowGameOver;
     }
 
-    // プレイヤーのHPテキストを更新
+    // Player HP
     private void UpdateHPUI(int newHP)
     {
         playerHPText.text = newHP.ToString();
     }
 
-    // プレイヤーのコインテキストを更新
-    private void UpdateCoinUI(int newItem)
+    // Player Rings Count
+    private void UpdateRingUI(int newItem)
     {
         coinText.text = $"{newItem.ToString()} / {playerStats.maxRingCount}";
     }
 
-    // ボスのHPスライダーを更新
+    // Boss HP
     private void UpdateBossHPSlider(int newHP)
     {
         bossHP.maxValue = bossStats.maxHP;
         bossHP.value = newHP;
     }
 
-    // ゲームオーバー画面を表示
+    // Game Over
     private void ShowGameOver(string text)
     {
         if (gameOverCanvas != null)

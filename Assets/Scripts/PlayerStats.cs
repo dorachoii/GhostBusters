@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
 
     // Events
     public event Action<int> OnHPChanged;
-    public event Action<int> OnCoinChanged;
+    public event Action<int> OnRingChanged;
 
     // Player Controller 参照
     PlayerController controller;
@@ -26,7 +26,7 @@ public class PlayerStats : MonoBehaviour
         currentHP = maxHP;
         currentRingCount = 0;
         OnHPChanged?.Invoke(currentHP);
-        OnCoinChanged?.Invoke(currentRingCount);
+        OnRingChanged?.Invoke(currentRingCount);
         controller = gameObject.GetComponent<PlayerController>();
     }
 
@@ -50,14 +50,14 @@ public class PlayerStats : MonoBehaviour
     public void GainItem()
     {
         currentRingCount++;
-        OnCoinChanged?.Invoke(currentRingCount);
+        OnRingChanged?.Invoke(currentRingCount);
     }
 
     /// Player item数を減らし、eventを発行
     public void LoseItem()
     {
         currentRingCount--;
-        OnCoinChanged?.Invoke(currentRingCount);
+        OnRingChanged?.Invoke(currentRingCount);
     }
 }
 

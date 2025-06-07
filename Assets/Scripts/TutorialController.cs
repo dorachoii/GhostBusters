@@ -8,18 +8,19 @@ using UnityEngine.Events;
 /// </summary>
 public enum TutorialPhase
 {
-    PlayerAppear,        // プレイヤー登場
-    MoveTutorial,        // 移動チュートリアル
-    SuckTutorial,        // 吸い込みチュートリアル
-    BlowTutorial,        // 吹き出しチュートリアル
-    SuckNBlowTutorial,   // 吸い込みと吹き出しの組み合わせチュートリアル
-    Done                 // チュートリアル完了
+    PlayerAppear,        
+    MoveTutorial,        
+    SuckTutorial,        
+    BlowTutorial,        
+    SuckNBlowTutorial,   
+    Done                 
 }
 
 /// <summary>
 /// チュートリアルの進行を管理するクラスです。
 /// 各フェーズの状態を監視し、条件が満たされたら次のフェーズに進みます。
 /// </summary>
+
 public class TutorialController : MonoBehaviour
 {
     [SerializeField]
@@ -34,7 +35,7 @@ public class TutorialController : MonoBehaviour
         TutorialPlayer.OnIntroComplete += HandleIntroComplete;
         TutorialPlayer.OnNearHeart += MoveToSuckPhase;
         TutorialItem.OnItemDestroyed += MoveToNext;
-        stats.OnCoinChanged += HandleBlowNSuck;
+        stats.OnRingChanged += HandleBlowNSuck;
     }
 
     void OnDisable()
@@ -42,7 +43,7 @@ public class TutorialController : MonoBehaviour
         TutorialPlayer.OnIntroComplete -= HandleIntroComplete;
         TutorialPlayer.OnNearHeart -= MoveToSuckPhase;
         TutorialItem.OnItemDestroyed -= MoveToNext;
-        stats.OnCoinChanged -= HandleBlowNSuck;
+        stats.OnRingChanged -= HandleBlowNSuck;
     }
 
     void Update()
@@ -79,18 +80,14 @@ public class TutorialController : MonoBehaviour
         uiManager.ONStartBtn();
     }
 
-    /// <summary>
     /// スタートボタンが押された時の処理を行います。
-    /// </summary>
     public void PushStartBtn()
     {
         uiManager.OFFTitle();
         GotoNextPhase();
     }
 
-    /// <summary>
-    /// ハートに近づいた時に吸い込みチュートリアルに移行します。
-    /// </summary>
+    /// MoveTutorial
     void MoveToSuckPhase()
     {
         if (currentPhase == TutorialPhase.MoveTutorial)
@@ -99,9 +96,7 @@ public class TutorialController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// アイテムが破壊された時に次のフェーズに進みます。
-    /// </summary>
+    /// SuckTutorial, BlowTutorial
     void MoveToNext(string item)
     {
         switch (item)
@@ -117,9 +112,7 @@ public class TutorialController : MonoBehaviour
 
     private int? lastItemCount = null;
 
-    /// <summary>
-    /// アイテム数の変化を監視し、吸い込みと吹き出しの組み合わせチュートリアルの完了を判定します。
-    /// </summary>
+    /// BlowNSuck Tutorial
     void HandleBlowNSuck(int currentItemCount)
     {
         if (lastItemCount == null)
@@ -128,11 +121,11 @@ public class TutorialController : MonoBehaviour
             return;
         }
 
-        Debug.Log("current" + currentItemCount);
+        // アイテム数が増加した後に減少した場合、吹き飛ばしと判断
         if (currentPhase == TutorialPhase.SuckNBlowTutorial && currentItemCount < lastItemCount)
         {
             GotoNextPhase();
-            lastItemCount = null; // 初期化して再度呼ばれないようにする
+            lastItemCount = null; 
         }
         else
         {
@@ -140,9 +133,6 @@ public class TutorialController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 次のシーンに遷移します。
-    /// </summary>
     IEnumerator LoadNextScene()
     {
         yield return new WaitForSeconds(2f);

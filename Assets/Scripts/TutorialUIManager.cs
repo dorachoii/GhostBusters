@@ -5,34 +5,19 @@ using UnityEngine.UI;
 
 /// <summary>
 /// チュートリアルのUI表示を管理するクラスです。
-/// 各フェーズに応じたガイドテキストの表示と、
-/// スタートボタンやタイトルの表示制御を行います。
 /// </summary>
+
 public class TutorialUIManager : MonoBehaviour
 {
     [SerializeField]
     private TutorialController tutorialController;
 
     public TextMeshProUGUI guideText;
-
-    /// <summary>
-    /// キー操作の説明用スプライト
-    /// </summary>
-    public Image[] keySprites;
-
-    /// <summary>
-    /// スタートボタン
-    /// </summary>
     public GameObject startBtn;
-
-    /// <summary>
-    /// タイトル表示
-    /// </summary>
     public GameObject Title;
 
     void OnEnable()
     {
-        Debug.Log("OnEnable");
         tutorialController.onPhaseChanged += UpdateGuide;
     }
 
@@ -41,11 +26,8 @@ public class TutorialUIManager : MonoBehaviour
         tutorialController.onPhaseChanged -= UpdateGuide;
     }
 
-    /// <summary>
-    /// チュートリアルのフェーズに応じて、ガイドテキストを更新します。
-    /// 各フェーズで異なる操作説明を表示します。
-    /// </summary>
-    /// <param name="phase">現在のチュートリアルフェーズ</param>
+
+    /// チュートリアルのフェーズに応じて、ガイドテキストを更新
     public void UpdateGuide(TutorialPhase phase)
     {
         switch (phase)
@@ -70,11 +52,6 @@ public class TutorialUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// テキストをフェードインしながら更新します。
-    /// 0.1秒の遅延後、1秒かけてフェードインします。
-    /// </summary>
-    /// <param name="text">表示するテキスト</param>
     IEnumerator ChangeText(string text)
     {
         yield return new WaitForSeconds(0.1f);
@@ -100,19 +77,14 @@ public class TutorialUIManager : MonoBehaviour
         guideText.color = color;
     }
 
-    /// <summary>
-    /// スタートボタンを表示します。
     /// イントロ完了時に呼び出されます。
-    /// </summary>
     public void ONStartBtn()
     {
         startBtn.SetActive(true);
     }
 
-    /// <summary>
-    /// スタートボタンとタイトルを非表示にします。
+
     /// スタートボタンが押された時に呼び出されます。
-    /// </summary>
     public void OFFTitle()
     {
         startBtn.SetActive(false);

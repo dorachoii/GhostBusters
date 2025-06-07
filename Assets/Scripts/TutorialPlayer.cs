@@ -2,6 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System;
 
+/// <summary>
+/// チュートリアルでのプレイヤーの初期アニメーション、
+/// フェーズ遷移のための距離チェックを管理するクラスです。
+/// </summary>
+
 public class TutorialPlayer : MonoBehaviour
 {
     public Transform targetPosition;
@@ -22,6 +27,8 @@ public class TutorialPlayer : MonoBehaviour
         CheckDistance();
     }
 
+    /// チュートリアルでのプレイヤーのIntroアニメーション
+    /// 回りながらカメラの前に来る
     IEnumerator PlayIntro()
     {
         Vector3 startPos = targetPosition.position + new Vector3(-10f, 0, 0);
@@ -54,6 +61,7 @@ public class TutorialPlayer : MonoBehaviour
         OnIntroComplete?.Invoke();
     }
 
+    /// moveTutorialのフェーズ遷移のための距離チェック
     public void CheckDistance()
     {
         float checkRadius = 3f; 
